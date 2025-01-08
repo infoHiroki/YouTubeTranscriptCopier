@@ -1,227 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>YouTube Transcript Copier</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        body {
-            width: 320px;
-            padding: 20px;
-            background: #000;
-            color: #fff;
-            font-family: 'Courier New', monospace;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .container {
-            background: #1a1a1a;
-            border: 3px solid #ff00ff;
-            border-radius: 0;
-            padding: 20px;
-            box-shadow: 
-                0 0 10px #ff00ff,
-                inset 0 0 10px #ff00ff;
-            position: relative;
-            z-index: 1;
-        }
-
-        .title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 20px;
-            color: #00ff00;
-            text-shadow: 
-                2px 2px #000,
-                0 0 15px #00ff00;
-            letter-spacing: 1px;
-            position: relative;
-        }
-
-        .title::before {
-            content: "TRANSCRIPT COPIER";
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            color: #ff00ff;
-            z-index: -1;
-            filter: blur(4px);
-            opacity: 0.5;
-        }
-
-        textarea {
-            width: 100%;
-            height: 120px;
-            margin: 10px 0;
-            padding: 12px;
-            background: #000;
-            border: 2px solid #00ffff;
-            color: #00ffff;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            resize: vertical;
-            box-sizing: border-box;
-            box-shadow: 0 0 5px #00ffff;
-            position: relative;
-            z-index: 1;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #ff00ff;
-            box-shadow: 0 0 10px #ff00ff;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            background: #ff00ff;
-            color: #000;
-            border: none;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: 0.5s;
-        }
-
-        button:hover::after {
-            left: 100%;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        .credit {
-            text-align: center;
-            font-size: 10px;
-            margin-top: 15px;
-            color: #00ff00;
-            font-family: 'Press Start 2P', cursive;
-            animation: blink 1.5s infinite;
-        }
-
-        /* カスタムアラート用のスタイル */
-        .retro-alert {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #000;
-            border: 2px solid #00ffff;
-            padding: 20px;
-            box-shadow: 0 0 20px #00ffff;
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .retro-alert.show {
-            display: block;
-            animation: alertAppear 0.3s forwards, alertDisappear 0.3s 1s forwards;
-        }
-
-        .retro-alert p {
-            color: #00ffff;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 12px;
-            margin: 0;
-        }
-
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            width: 6px;
-            height: 6px;
-            z-index: 1001;
-            border-radius: 50%;
-            box-shadow: 0 0 10px currentColor;
-        }
-
-        @keyframes particle {
-            0% { 
-                transform: translate(0, 0) scale(1); 
-                opacity: 1; 
-            }
-            100% { 
-                transform: translate(var(--tx), var(--ty)) scale(0); 
-                opacity: 0; 
-            }
-        }
-
-        @keyframes containerDisappear {
-            0% { 
-                transform: scale(1);
-                opacity: 1;
-            }
-            100% { 
-                transform: scale(1.2);
-                opacity: 0;
-            }
-        }
-
-        @keyframes alertAppear {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes alertDisappear {
-            from { opacity: 1; }
-            to { opacity: 0; }
-        }
-
-        /* スキャンライン効果の改良 */
-        .scanline {
-            width: 100%;
-            height: 100px;
-            background: linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0) 0%,
-                rgba(255, 255, 255, 0.1) 10%,
-                rgba(0, 0, 0, 0) 100%
-            );
-            position: fixed;
-            top: 0;
-            left: 0;
-            animation: scanline 8s linear infinite;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .noise {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAGFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE6d/iAAAACHRSTlMzMzMzMzMzM85JBgUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAZdEVYdFNvZnR3YXJlAHBhaW50Lm5ldCA0LjAuMjHxIGmVAAAAMElEQVQ4jWNgQAX8//8/AyMDKsnAwMgApqhA0cDAoADmg/kszFD+/4dQ/P8PophhAACpjQkMBRRz/AAAAABJRU5ErkJggg==');
-            opacity: 0.05;
-            z-index: 1;
-            pointer-events: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="noise"></div>
@@ -229,41 +11,45 @@
     <div class="container">
         <h1 class="title">TRANSCRIPT COPIER</h1>
 
-        <select id="templateSelect" style="width: 100%; margin: 10px 0; padding: 8px; background: #000; border: 2px solid #00ffff; color: #00ffff; font-family: 'Press Start 2P', cursive; font-size: 12px; box-shadow: 0 0 5px #00ffff; box-sizing: border-box; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
-            <option value="">PROMPT</option>
-            <option disabled>------- English -------</option>
-            <option value="Please summarize the following YouTube video transcript. Create a list of 3-5 key points and provide a 200-word summary.">Basic</option>
-            <option value="Please analyze the content with 5 key points, including specific examples for each. End with a 300-word comprehensive summary.">Detailed</option>
-            <option value="For the following content:&#10;1. Main arguments (3 points)&#10;2. Examples for each argument&#10;3. Counter-arguments&#10;4. Conclusion">Debate</option>
-            
-            <option disabled>------- 日本語 -------</option>
-            <option value="以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。" style="font-weight: bold;">基本</option>
-            <option value="内容を5つの重要なポイントにまとめ、それぞれに具体的な例を添えて説明してください。最後に300字程度の総括を作成してください。" style="font-weight: bold;">詳細</option>
-            <option value="以下の内容について：&#10;1. 主要な論点（3点）&#10;2. 各論点の具体例&#10;3. 反論や課題&#10;4. 結論" style="font-weight: bold;">討論</option>
-            
-            <option disabled>------- 中文 -------</option>
-            <option value="请总结以下YouTube视频的转录内容。列出3-5个重点，并提供200字的总结。" style="font-weight: bold;">基础</option>
-            <option value="请分析内容要点，列出5个关键点，并为每个点提供具体例子。最后提供300字的综合总结。" style="font-weight: bold;">详细</option>
-            <option value="对于以下内容：&#10;1. 主要论点（3点）&#10;2. 各论点的具体例子&#10;3. 反驳意见&#10;4. 结论" style="font-weight: bold;">辩论</option>
-            
-            <option disabled>---------------</option>
-            <option value="">Custom</option>
-        </select>
+<select id="templateSelect">
+    <option value="">P R O M P T</option>
+    <option disabled>------- E n g l i s h -------</option>
+    <option value="Please summarize the following YouTube video transcript. Create a list of 3-5 key points and provide a 200-word summary.">B a s i c</option>
+    <option value="Please analyze the content with 5 key points, including specific examples for each. End with a 300-word comprehensive summary.">D e t a i l e d</option>
+    <option value="For the following content:
+1. Main arguments (3 points)
+2. Examples for each argument
+3. Counter-arguments
+4. Conclusion">D e b a t e</option>
 
-        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT...">以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。</textarea>
+    <option disabled lang="ja">------- 日 本 語 -------</option>
+    <option value="以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。" lang="ja" style="font-weight: bold;">基 本</option>
+    <option value="内容を5つの重要なポイントにまとめ、それぞれに具体的な例を添えて説明してください。最後に300字程度の総括を作成してください。" lang="ja" style="font-weight: bold;">詳 細</option>
+    <option value="以下の内容について：
+1. 主要な論点（3点）
+2. 各論点の具体例
+3. 反論や課題
+4. 結論" lang="ja" style="font-weight: bold;">討 論</option>
+
+    <option disabled lang="zh">------- 中 文 -------</option>
+    <option value="请总结以下YouTube视频的转录内容。列出3-5个重点，并提供200字的总结。" lang="zh" style="font-weight: bold;">基 础</option>
+    <option value="请分析内容要点，列出5个关键点，并为每个点提供具体例子。最后提供300字的综合总结。" lang="zh" style="font-weight: bold;">详 细</option>
+    <option value="对于以下内容：
+1. 主要论点（3点）
+2. 各论点的具体例子
+3. 反驳意见
+4. 结论" lang="zh" style="font-weight: bold;">辩 论</option>
+</select>
+
+        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT..."></textarea>
         <button id="copyTranscript">COPY TEXT</button>
     </div>
-    <div class="credit">© 2025 info.HirokiTakamura</div>
-    <!-- カンプルなアラートメッセージ -->
+    <div class="credit">©2025 info.HirokiTakamura</div>
+    <!-- シンプルなアラートメッセージ -->
     <div class="retro-alert" id="customAlert">
-        <p id="alertMessage">COPY COMPLETE!</p>
+        <p id="alertMessage">COPY THAT!!</p>
     </div>
-
+    <div class="loading-indicator"></div>
     <script src="popup.js"></script>
-    <script>
-    document.getElementById('templateSelect').addEventListener('change', function() {
-    document.getElementById('promptTemplate').value = this.value;
-    });
-    </script>
 </body>
 </html>

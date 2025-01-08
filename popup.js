@@ -1,4 +1,3 @@
-
 // デバッグ用のログ出力を追加
 console.log("popup.js loaded");
 
@@ -7,13 +6,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const button = document.getElementById("copyTranscript");
   const promptTemplate = document.getElementById("promptTemplate");
   const templateSelect = document.getElementById("templateSelect");
+  const alertElement = document.getElementById("customAlert");
+  const alertMessageElement = document.getElementById("alertMessage");
+  const container = document.querySelector(".container");
+  const loadingIndicator = document.querySelector(".loading-indicator");
+
+  const title = document.querySelector(".title");
+  const select = document.querySelector("#templateSelect");
+  const textarea = document.querySelector("#promptTemplate");
 
   // テンプレート選択時の処理を追加
-  templateSelect.addEventListener('change', () => {
-    if (templateSelect.value) {
+  templateSelect.addEventListener("change", () => {
+    if (templateSelect.value === "") {
+      promptTemplate.value = ""; // Clear the textarea for Custom
+      promptTemplate.focus();
+    } else {
       promptTemplate.value = templateSelect.value;
       chrome.storage.local.set({ promptTemplate: templateSelect.value });
     }
+    // Add visual cue for the selected option
+    templateSelect.classList.add("selected-template");
+    setTimeout(() => {
+      templateSelect.classList.remove("selected-template");
+    }, 300);
   });
 
   // プロンプトをローカルストレージから読み込む
@@ -28,77 +43,36 @@ document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.local.set({ promptTemplate: promptTemplate.value });
   });
 
-  // パーティクルを作成する関数
-  function createParticles() {
-    const container = document.querySelector(".container");
-    const rect = container.getBoundingClientRect();
-    const colors = ["#ff00ff", "#00ffff", "#00ff00", "#ffff00"];
-    const particleCount = 50;
-
-    for (let i = 0; i < particleCount; i++) {
-      const particle = document.createElement("div");
-      particle.className = "particle";
-      particle.style.background =
-        colors[Math.floor(Math.random() * colors.length)];
-
-      // パーティクルの初期位置をコンテナ内のランダムな位置に
-      const startX = rect.left + Math.random() * rect.width;
-      const startY = rect.top + Math.random() * rect.height;
-      particle.style.left = startX + "px";
-      particle.style.top = startY + "px";
-
-      // より派手な動きのためのランダムな方向と距離
-      const angle = Math.random() * Math.PI * 2;
-      const distance = 100 + Math.random() * 200;
-      const tx = Math.cos(angle) * distance;
-      const ty = Math.sin(angle) * distance;
-
-      particle.style.setProperty("--tx", `${tx}px`);
-      particle.style.setProperty("--ty", `${ty}px`);
-
-      // アニメーションを適用
-      particle.style.animation =
-        "particle 0.8s cubic-bezier(0.25, .8, .25, 1) forwards";
-
-      document.body.appendChild(particle);
-
-      // アニメーション終了後にパーティクルを削除
-      setTimeout(() => {
-        particle.remove();
-      }, 800);
-    }
-  }
-
   // アラート表示用の関数
   function showCustomAlert(message, isSuccess = true) {
-    const alert = document.getElementById("customAlert");
-    const alertMessage = document.getElementById("alertMessage");
-    alertMessage.textContent = message;
-    alert.classList.add("show");
-
+    alertMessageElement.textContent = message;
+    alertElement.classList.add("show");
     if (isSuccess) {
-      // メインウィンドウを非表示にしてパーティクルエフェクトを実行
-      const container = document.querySelector(".container");
-      createParticles();
-      container.style.animation = "containerDisappear 0.5s forwards";
+      // グリッチエフェクトを適用
+      title.classList.add("glitch-text");
+      select.classList.add("glitch-text");
+      textarea.classList.add("glitch-text");
+      button.classList.add("glitch-text");
 
-      // 少し遅れてウィンドウを閉じる
       setTimeout(() => {
+        title.classList.remove("glitch-text");
+        select.classList.remove("glitch-text");
+        textarea.classList.remove("glitch-text");
+        button.classList.remove("glitch-text");
         window.close();
       }, 800);
     }
-
     // エラー時はアラートを自動で消去
     if (!isSuccess) {
       setTimeout(() => {
-        alert.classList.remove("show");
+        alertElement.classList.remove("show");
       }, 1300);
     }
   }
 
   button.addEventListener("click", async () => {
     console.log("Button clicked");
-
+    loadingIndicator.style.display = "block"; // ローディング開始
     try {
       const [tab] = await chrome.tabs.query({
         active: true,
@@ -122,14 +96,27 @@ document.addEventListener("DOMContentLoaded", () => {
               document.querySelector('button[aria-label="Show transcript"]');
 
             if (!transcriptButton) {
-              throw new Error("文字起こしボタンが見つかりません");
+              throw new Error("Transcript button not found");
             }
 
             console.log("文字起こしボタン発見");
             transcriptButton.click();
 
-            // 文字起こしパネルが開くのを待つ
-            await new Promise((resolve) => setTimeout(resolve, 1500));
+            // Wait for the transcript panel to open using an interval
+            await new Promise((resolve, reject) => {
+              const intervalId = setInterval(() => {
+                if (document.querySelector("ytd-transcript-segment-renderer")) {
+                  clearInterval(intervalId);
+                  resolve();
+                }
+              }, 100);
+
+              // Timeout after 5 seconds
+              setTimeout(() => {
+                clearInterval(intervalId);
+                reject(new Error("Timeout: Transcript panel did not open"));
+              }, 5000);
+            });
 
             // 文字起こしセグメントの取得
             const segments = document.querySelectorAll(
@@ -138,7 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Found segments:", segments.length);
 
             if (segments.length === 0) {
-              throw new Error("文字起こしが見つかりませんでした");
+              throw new Error("No transcript found");
             }
 
             let text = "";
@@ -156,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             if (!text.trim()) {
-              throw new Error("文字起こしの内容が空です");
+              throw new Error("Transcript content is empty");
             }
 
             return text;
@@ -170,13 +157,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (result && result[0] && result[0].result) {
         const finalText = promptTemplate.value + result[0].result;
         await navigator.clipboard.writeText(finalText);
-        showCustomAlert("COPY COMPLETE!");
+        showCustomAlert("COPY THAT!!");
       } else {
-        throw new Error("文字起こしの取得に失敗しました");
+        showCustomAlert("ERROR: Failed to retrieve transcript", false);
       }
     } catch (error) {
       console.error("Error:", error);
       showCustomAlert("ERROR: " + error.message, false);
+    } finally {
+      loadingIndicator.style.display = "none"; // ローディング終了
     }
   });
+  // Auto focus the textarea on load
+  promptTemplate.focus();
 });
