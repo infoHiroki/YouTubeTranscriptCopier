@@ -1,0 +1,35 @@
+{
+  "extName": {
+    "message": "YouTube文字起こしコピー"
+  },
+  "extDescription": {
+    "message": "YouTubeの文字起こしをコピーする拡張機能"
+  },
+  "copyButton": {
+    "message": "文字起こしをコピー"
+  },
+  "copyComplete": {
+    "message": "コピー完了！"
+  },
+  "errorNoTranscript": {
+    "message": "文字起こしが見つかりません"
+  },
+  "errorNoTranscriptButton": {
+    "message": "文字起こしボタンが見つかりません"
+  },
+  "errorEmptyTranscript": {
+    "message": "文字起こしの内容が空です"
+  },
+  "errorCopyFailed": {
+    "message": "文字起こしのコピーに失敗しました"
+  },
+  "languageChanged": {
+    "message": "言語を変更しました！"
+  },
+  "saved": {
+    "message": "保存しました！"
+  },
+  "resetComplete": {
+    "message": "リセットしました！"
+  }
+} 

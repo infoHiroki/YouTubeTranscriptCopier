@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Transcript Copier - Settings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="options.css">
+</head>
+<body>
+    <div class="noise"></div>
+    <div class="scanline"></div>
+    <div class="settings-container">
+        <h1>PROMPT SETTINGS</h1>
+        <div class="two-column-layout">
+            <!-- Left sidebar -->
+            <div class="sidebar">
+                <div class="template-list">
+                    <!-- Templates populated here -->
+                </div>
+            </div>
+            
+            <!-- Right content -->
+            <div class="content">
+                <div class="selected-prompt">
+                    <h2>SELECTED PROMPT</h2>
+                    <div id="promptDisplay" class="prompt-display"></div>
+                </div>
+                <div class="custom-prompt">
+                    <h2>CUSTOM PROMPT</h2>
+                    <textarea id="customPrompt" class="cyberpunk-textarea"></textarea>
+                    <button id="saveCustom" class="cyberpunk-button">SAVE CUSTOM</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="options.js"></script>
+</body>
+</html>
