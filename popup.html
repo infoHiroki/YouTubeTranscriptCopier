@@ -228,18 +228,42 @@
     <div class="scanline"></div>
     <div class="container">
         <h1 class="title">TRANSCRIPT COPIER</h1>
-        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT...">以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。
 
-</textarea>
+        <select id="templateSelect" style="width: 100%; margin: 10px 0; padding: 8px; background: #000; border: 2px solid #00ffff; color: #00ffff; font-family: 'Press Start 2P', cursive; font-size: 12px; box-shadow: 0 0 5px #00ffff; box-sizing: border-box; -webkit-appearance: none; -moz-appearance: none; appearance: none;">
+            <option value="">PROMPT</option>
+            <option disabled>------- English -------</option>
+            <option value="Please summarize the following YouTube video transcript. Create a list of 3-5 key points and provide a 200-word summary.">Basic</option>
+            <option value="Please analyze the content with 5 key points, including specific examples for each. End with a 300-word comprehensive summary.">Detailed</option>
+            <option value="For the following content:&#10;1. Main arguments (3 points)&#10;2. Examples for each argument&#10;3. Counter-arguments&#10;4. Conclusion">Debate</option>
+            
+            <option disabled>------- 日本語 -------</option>
+            <option value="以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。" style="font-weight: bold;">基本</option>
+            <option value="内容を5つの重要なポイントにまとめ、それぞれに具体的な例を添えて説明してください。最後に300字程度の総括を作成してください。" style="font-weight: bold;">詳細</option>
+            <option value="以下の内容について：&#10;1. 主要な論点（3点）&#10;2. 各論点の具体例&#10;3. 反論や課題&#10;4. 結論" style="font-weight: bold;">討論</option>
+            
+            <option disabled>------- 中文 -------</option>
+            <option value="请总结以下YouTube视频的转录内容。列出3-5个重点，并提供200字的总结。" style="font-weight: bold;">基础</option>
+            <option value="请分析内容要点，列出5个关键点，并为每个点提供具体例子。最后提供300字的综合总结。" style="font-weight: bold;">详细</option>
+            <option value="对于以下内容：&#10;1. 主要论点（3点）&#10;2. 各论点的具体例子&#10;3. 反驳意见&#10;4. 结论" style="font-weight: bold;">辩论</option>
+            
+            <option disabled>---------------</option>
+            <option value="">Custom</option>
+        </select>
+
+        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT...">以下のYouTube動画の文字起こしを要約してください。重要なポイントを3-5個のリストにまとめ、最後に200字程度の要約を作成してください。</textarea>
         <button id="copyTranscript">COPY TEXT</button>
     </div>
-    <div class="credit">&copy; 2025 info.HirokiTakamura</div>
-
+    <div class="credit">© 2025 info.HirokiTakamura</div>
     <!-- カンプルなアラートメッセージ -->
     <div class="retro-alert" id="customAlert">
         <p id="alertMessage">COPY COMPLETE!</p>
     </div>
 
     <script src="popup.js"></script>
+    <script>
+    document.getElementById('templateSelect').addEventListener('change', function() {
+    document.getElementById('promptTemplate').value = this.value;
+    });
+    </script>
 </body>
 </html>
