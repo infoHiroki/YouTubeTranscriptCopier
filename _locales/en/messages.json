@@ -1,35 +1,10 @@
 {
-  "extName": {
-    "message": "YouTube Transcript Copier"
+  "appName": {
+    "message": "YouTube Transcript Copier",
+    "description": "The name of the extension"
   },
-  "extDescription": {
-    "message": "Copy YouTube video transcripts easily"
-  },
-  "copyButton": {
-    "message": "COPY TRANSCRIPT"
-  },
-  "copyComplete": {
-    "message": "COPY COMPLETE!"
-  },
-  "errorNoTranscript": {
-    "message": "No transcript found"
-  },
-  "errorNoTranscriptButton": {
-    "message": "Transcript button not found"
-  },
-  "errorEmptyTranscript": {
-    "message": "Transcript content is empty"
-  },
-  "errorCopyFailed": {
-    "message": "Failed to copy transcript"
-  },
-  "languageChanged": {
-    "message": "LANGUAGE CHANGED!"
-  },
-  "saved": {
-    "message": "SAVED!"
-  },
-  "resetComplete": {
-    "message": "RESET COMPLETE!"
+  "appDesc": {
+    "message": "Copy YouTube transcripts with AI analysis prompts",
+    "description": "The description of the extension"
   }
-} 
+}
