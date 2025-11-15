@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Transcript Copier</title>
+    <link rel="stylesheet" href="../css/output.css">
+</head>
+<body class="bg-cyber-black text-cyber-white font-mono w-80 overflow-hidden">
+    <!-- Noise effect -->
+    <div class="noise"></div>
+    <!-- Scanline effect -->
+    <div class="scanline"></div>
+
+    <!-- Main container -->
+    <div class="container-cyber relative z-10 m-5">
+        <!-- Header -->
+        <div class="flex justify-between items-center mb-5">
+            <h1 class="font-pixel text-sm text-cyber-green text-center flex-1 relative title-glow text-shadow-glow-green" data-text="TRANSCRIPT COPIER">
+                TRANSCRIPT COPIER
+            </h1>
+            <button id="manageTemplates" class="ml-2 w-10 h-10 bg-cyber-black text-cyber-cyan border-2 border-cyber-cyan flex items-center justify-center transition-all duration-300 shadow-glow-cyan hover:bg-cyber-cyan hover:text-cyber-black hover:shadow-glow-cyan-lg" title="Prompt Manager">
+                ⚙️
+            </button>
+        </div>
+
+        <!-- Template select -->
+        <select id="templateSelect" class="w-full p-3 my-2 bg-[#0a0a0a] text-cyber-green border-2 border-cyber-green text-sm cursor-pointer text-center transition-all duration-300 focus:outline-none focus:shadow-glow-green hover:bg-[#001100]">
+            <option value="">PROMPT</option>
+        </select>
+
+        <!-- Prompt textarea -->
+        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT..." class="input-cyber my-2 min-h-[120px] resize-y"></textarea>
+
+        <!-- Copy button -->
+        <button id="copyTranscript" class="btn-cyber w-full">
+            COPY TEXT
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-cyber-green text-[10px] opacity-50 mb-2">
+        ©2025 info.HirokiTakamura
+    </div>
+
+    <!-- Custom alert -->
+    <div id="customAlert" class="fixed inset-0 items-center justify-center bg-black bg-opacity-80 z-50 hidden">
+        <div class="container-cyber max-w-sm animate-glitch">
+            <p id="alertMessage" class="font-pixel text-cyber-green text-center text-lg text-shadow-glow-green">
+                COPY THAT!!
+            </p>
+        </div>
+    </div>
+
+    <!-- Loading indicator -->
+    <div class="loading-indicator fixed inset-0 items-center justify-center bg-black bg-opacity-90 z-50 hidden">
+        <div class="font-pixel text-cyber-magenta text-sm animate-pulse-slow text-shadow-glow-magenta">
+            LOADING...
+        </div>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+</body>
+</html>

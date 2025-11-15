@@ -1,0 +1,17 @@
+[
+  {
+    "id": "summary",
+    "name": "📝 Summary",
+    "text": "Please provide a detailed summary of the following YouTube video content.\nAt the end, summarize it in three lines.\nBe sure to output in English."
+  },
+  {
+    "id": "markdown",
+    "name": "📄 Markdown",
+    "text": "Please summarize the following YouTube video content in detail in Markdown format.\nAt the end, summarize it in three lines.\nOutput in an easy-to-read, well-organized format, always in English."
+  },
+  {
+    "id": "html",
+    "name": "🖼️ HTML Infographic",
+    "text": "Please output the following YouTube video content as a visually easy-to-understand HTML infographic.\nThe content must always be output in English."
+  }
+]

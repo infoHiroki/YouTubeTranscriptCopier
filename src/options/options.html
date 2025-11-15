@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt Manager - TRANSCRIPT COPIER</title>
+  <link rel="stylesheet" href="../css/output.css">
+</head>
+<body class="bg-cyber-black text-cyber-white font-mono min-h-screen overflow-hidden">
+  <!-- Noise effect -->
+  <div class="noise"></div>
+  <!-- Scanline effect -->
+  <div class="scanline"></div>
+
+  <!-- Main container -->
+  <div class="relative z-10 max-w-7xl mx-auto p-8">
+    <!-- Header -->
+    <header class="mb-8">
+      <h1 class="font-pixel text-2xl text-cyber-green text-center mb-8 relative title-glow text-shadow-glow-green" data-text="PROMPT MANAGER">
+        PROMPT MANAGER
+      </h1>
+      <div class="flex justify-center gap-4 flex-wrap">
+        <button id="addTemplate" class="btn-cyber">
+          NEW
+        </button>
+        <button id="resetToDefault" class="btn-cyber-cyan">
+          RESET
+        </button>
+        <button id="deleteAll" class="btn-cyber-magenta">
+          DELETE ALL
+        </button>
+      </div>
+    </header>
+
+    <!-- Templates grid -->
+    <div id="templatesContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <!-- Cards will be dynamically inserted here -->
+    </div>
+  </div>
+
+  <!-- Custom confirmation dialog -->
+  <div id="confirmDialog" class="fixed inset-0 bg-black bg-opacity-80 items-center justify-center z-50 hidden">
+    <div class="container-cyber max-w-md mx-4 animate-glitch">
+      <h2 id="dialogTitle" class="font-pixel text-lg text-cyber-magenta mb-4 text-shadow-glow-magenta">
+        CONFIRM
+      </h2>
+      <p id="dialogMessage" class="text-cyber-white mb-6 text-base leading-relaxed">
+        <!-- Message will be inserted here -->
+      </p>
+      <div class="flex gap-4 justify-end">
+        <button id="dialogCancel" class="btn-cyber">
+          CANCEL
+        </button>
+        <button id="dialogOk" class="btn-cyber-magenta">
+          OK
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-4 right-4 text-cyber-green text-xs opacity-50">
+    ©2025 info.HirokiTakamura
+  </footer>
+
+  <script type="module" src="options.js"></script>
+</body>
+</html>
