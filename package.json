@@ -1,0 +1,24 @@
+{
+  "name": "youtube-transcript-copier",
+  "version": "1.1.0",
+  "description": "YouTube Transcript Copier - Cyberpunk Edition",
+  "scripts": {
+    "build:css": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css",
+    "watch:css": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --watch",
+    "build:prod": "tailwindcss -i ./src/css/input.css -o ./src/css/output.css --minify",
+    "build:docs": "tailwindcss -i ./src/css/input.css -o ./docs/css/output.css --minify",
+    "watch:docs": "tailwindcss -i ./src/css/input.css -o ./docs/css/output.css --watch",
+    "build:all": "npm run build:prod && npm run build:docs"
+  },
+  "keywords": [
+    "youtube",
+    "transcript",
+    "chrome-extension",
+    "cyberpunk"
+  ],
+  "author": "info.HirokiTakamura",
+  "license": "MIT",
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

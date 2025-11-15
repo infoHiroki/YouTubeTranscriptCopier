@@ -7,4 +7,11 @@
 ehthumbs.db
 Thumbs.db
 
+# Node modules / Node モジュール
+node_modules/
+
+# Build output / ビルド出力
+src/css/output.css
+docs/css/output.css
+
 # IDE specific files / IDE固
