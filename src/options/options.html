@@ -9,7 +9,7 @@
   <link rel="icon" type="image/png" sizes="128x128" href="../assets/icons/icon128.png">
   <link rel="stylesheet" href="../css/output.css">
 </head>
-<body class="bg-cyber-black text-cyber-white font-mono min-h-screen overflow-hidden">
+<body class="bg-cyber-black text-cyber-white font-mono min-h-screen overflow-y-auto">
   <!-- Noise effect -->
   <div class="noise"></div>
   <!-- Scanline effect -->
@@ -18,11 +18,11 @@
   <!-- Main container -->
   <div class="relative z-10 max-w-7xl mx-auto p-8">
     <!-- Header -->
-    <header class="mb-8">
-      <h1 class="font-pixel text-2xl text-cyber-green text-center mb-8 relative title-glow text-shadow-glow-green" data-text="PROMPT MANAGER">
+    <header class="mb-8 flex justify-between items-center flex-wrap gap-4">
+      <h1 class="font-pixel text-4xl text-cyber-green relative title-glow text-shadow-glow-green" data-text="PROMPT MANAGER">
         PROMPT MANAGER
       </h1>
-      <div class="flex justify-center gap-4 flex-wrap">
+      <div class="flex gap-4 flex-wrap">
         <button id="addTemplate" class="btn-cyber">
           NEW
         </button>
@@ -62,8 +62,10 @@
   </div>
 
   <!-- Footer -->
-  <footer class="fixed bottom-4 right-4 text-cyber-green text-xs opacity-50">
-    ©2025 info.HirokiTakamura
+  <footer class="text-center text-cyber-green text-xs opacity-50 py-6">
+    ©2025 <a href="https://infohiroki.com/" target="_blank" class="text-cyber-cyan hover:text-cyber-magenta transition-colors inline-flex items-center">
+      <img src="../assets/logo.svg" alt="logo" style="width: 12px; height: 12px;" class="inline-block mr-1">info.HirokiTakamura
+    </a>
   </footer>
 
   <script type="module" src="options.js"></script>
