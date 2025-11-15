@@ -1,108 +1,138 @@
-
 # YouTube Transcript Copier
 
-A Chrome extension that copies YouTube transcripts with AI analysis prompts.
-YouTubeの字幕をAI分析用プロンプト付きでコピーできるChrome拡張機能です。
-一个可以复制YouTube字幕并添加AI分析提示的Chrome扩展程序。
+A Chrome extension that copies YouTube transcripts with customizable AI analysis prompts. Features a retro cyberpunk design powered by Tailwind CSS.
 
-🌐 **[Visit Website](https://yourusername.github.io/YouTubeTranscriptCopier/)** | 📦 **[Chrome Web Store](#)** | 💬 **[Report Issues](https://github.com/yourusername/YouTubeTranscriptCopier/issues)**
+🌐 **[Visit Website](https://infohiroki.github.io/YouTubeTranscriptCopier/)** | 📦 **[Chrome Web Store](https://chromewebstore.google.com/detail/youtube-transcript-copier/pjogfgkppdcjmgehjfecjdjfhpjapiph)** | 💬 **[Report Issues](https://github.com/infoHiroki/YouTubeTranscriptCopier/issues)**
 
-## Features / 機能 / 功能
-- Easy copying of YouTube transcripts
-- Customizable prompt templates
-- Prompt manager with CRUD operations
-- Retro cyberpunk design (Tailwind CSS)
+## ✨ Features
 
-- YouTubeの字幕を簡単にコピー
-- カスタマイズ可能なプロンプトテンプレート
-- プロンプト管理画面（追加・編集・削除）
-- レトロなサイバーパンクデザイン（Tailwind CSS）
+- **One-Click Copy** - Instantly copy YouTube transcripts with timestamps
+- **Custom Prompts** - Create and manage your own AI prompt templates
+- **Prompt Manager** - Full CRUD operations for prompt templates
+- **Cloud Sync** - Prompts sync across devices via Chrome Storage API
+- **Retro Cyberpunk UI** - Immersive design with glitch effects and pixel fonts
+- **Multilingual** - Supports English, Japanese, and Chinese interfaces
 
-- 轻松复制YouTube字幕
-- 可自定义提示模板
-- 提示管理界面（增删改查）
-- 复古赛博朋克设计（Tailwind CSS）
+## 🚀 Tech Stack
 
-## Tech Stack / 技術スタック / 技术栈
-- **Manifest V3** - Chrome Extension API
-- **Tailwind CSS** - Utility-first CSS framework
-- **ES6 Modules** - Modern JavaScript
-- **Chrome Storage API** - Sync storage for prompts
+- **Manifest V3** - Latest Chrome Extension API
+- **Tailwind CSS** - Utility-first CSS framework with custom cyberpunk theme
+- **ES6 Modules** - Modern JavaScript architecture
+- **Chrome Storage API** - Sync storage for prompts across devices
 
-## Development / 開発 / 开发
+## 📦 Installation
 
-### Prerequisites / 必要条件 / 先决条件
-- Node.js (for Tailwind CSS build)
-- Chrome browser
+### From Chrome Web Store (Recommended)
 
-### Build / ビルド / 构建
+Install directly from the [Chrome Web Store](https://chromewebstore.google.com/detail/youtube-transcript-copier/pjogfgkppdcjmgehjfecjdjfhpjapiph)
+
+### For Developers
+
 ```bash
-# Install dependencies / 依存関係をインストール / 安装依赖
+# Clone the repository
+git clone https://github.com/infoHiroki/YouTubeTranscriptCopier.git
+cd YouTubeTranscriptCopier
+
+# Install dependencies
 npm install
 
-# Build CSS / CSSをビルド / 构建CSS
+# Build Tailwind CSS
 npm run build:css
 
-# Watch mode (auto-rebuild) / ウォッチモード（自動再ビルド） / 监视模式（自动重建）
-npm run watch:css
-
-# Production build (minified) / 本番ビルド（圧縮） / 生产构建（压缩）
-npm run build:prod
+# Load unpacked extension in Chrome
+# 1. Open chrome://extensions
+# 2. Enable "Developer mode"
+# 3. Click "Load unpacked" and select the project directory
 ```
 
-### Directory Structure / ディレクトリ構造 / 目录结构
+## 🎯 Usage
+
+1. **Open a YouTube video** with available transcripts
+2. **Click the extension icon** in your browser toolbar
+3. **Select or write a prompt** (or use default prompts)
+4. **Click "COPY THAT!!"** button
+5. **Paste into your AI assistant** (ChatGPT, Claude, etc.)
+
+## ⚙️ Prompt Manager
+
+Access the Prompt Manager by clicking the ⚙️ icon in the popup:
+
+- **Add** new custom prompts
+- **Edit** existing prompts
+- **Delete** unwanted prompts
+- **Reset** to default prompt templates
+
+## 📁 Project Structure
+
 ```
 YouTubeTranscriptCopier/
 ├── src/
-│   ├── popup/              # Popup UI
-│   ├── options/            # Prompt manager
-│   ├── js/                 # Common modules
-│   ├── css/                # Tailwind CSS
-│   └── assets/             # Icons & JSON
-├── _locales/               # i18n
-├── manifest.json           # Extension config
-├── package.json            # npm config
-└── tailwind.config.js      # Tailwind config
+│   ├── popup/              # Popup UI (HTML, JS, CSS)
+│   ├── options/            # Prompt Manager interface
+│   ├── js/                 # Shared JavaScript modules
+│   ├── css/                # Tailwind CSS (input & output)
+│   └── assets/             # Icons, default prompts JSON
+├── _locales/               # i18n localization files
+├── docs/                   # GitHub Pages website
+├── manifest.json           # Extension configuration
+├── package.json            # npm dependencies
+└── tailwind.config.js      # Tailwind CSS configuration
 ```
 
-## Installation / インストール方法 / 安装方法
+## 🛠️ Development
 
-### From Chrome Web Store
-1. Install "YouTube Transcript Copier" from Chrome Web Store
-   Chrome Web Storeから「YouTube Transcript Copier」をインストール
-   从Chrome网上应用店安装"YouTube Transcript Copier"
+### Available Scripts
 
-### For Developers / 開発者向け / 开发者
-1. Clone this repository / このリポジトリをクローン / 克隆此仓库
-2. Run `npm install && npm run build:css` / `npm install && npm run build:css`を実行 / 运行`npm install && npm run build:css`
-3. Open Chrome Extensions page (`chrome://extensions`)
-4. Enable "Developer mode" / 「デベロッパーモード」を有効化 / 启用"开发者模式"
-5. Click "Load unpacked" and select this directory / 「パッケージ化されていない拡張機能を読み込む」でこのディレクトリを選択 / 点击"加载已解压的扩展程序"并选择此目录
+```bash
+# Install dependencies
+npm install
 
-## Usage / 使い方 / 使用方法
-1. Play a YouTube video / YouTubeの動画を再生 / 播放YouTube视频
-2. Click the extension icon / 拡張機能のアイコンをクリック / 点击扩展程序图标
-3. Select or input prompt / プロンプトを選択または入力 / 选择或输入提示
-4. Click "COPY TEXT" button / 「COPY TEXT」ボタンをクリック / 点击"COPY TEXT"按钮
-5. Paste into AI chat (ChatGPT, Claude, etc.) / AIチャット（ChatGPT、Claudeなど）に貼り付け / 粘贴到AI聊天（ChatGPT、Claude等）
+# Build CSS (development)
+npm run build:css
 
-## Prompt Manager / プロンプト管理 / 提示管理
-- Click ⚙️ icon to open Prompt Manager / ⚙️アイコンでプロンプト管理画面を開く / 点击⚙️图标打开提示管理界面
-- Add, edit, delete custom prompts / カスタムプロンプトの追加・編集・削除 / 添加、编辑、删除自定义提示
-- Reset to default prompts / デフォルトプロンプトにリセット / 重置为默认提示
+# Watch mode (auto-rebuild on changes)
+npm run watch:css
 
-## License / ライセンス / 许可证
-MIT License
+# Production build (minified)
+npm run build:prod
 
-## Author / 作者 / 作者
-info.HirokiTakamura
+# Build all (CSS for both extension and docs site)
+npm run build:all
+```
 
-## Version / バージョン / 版本
-v1.1 - Tailwind CSS refactor + Prompt Manager
-- Migrated to Tailwind CSS
-- Refactored to modular architecture
-- Added prompt management UI
+### Customization
 
-v1.0 - Initial release
-- Basic transcript copying
+Edit `tailwind.config.js` to customize the cyberpunk theme colors, fonts, and effects.
+
+## 📄 License
+
+MIT License - See [LICENSE](LICENSE) file for details
+
+## 👤 Author
+
+**info.HirokiTakamura**
+
+- Website: [infohiroki.com](https://infohiroki.com/)
+- Email: info.hirokitakamura@gmail.com
+
+## 📝 Version History
+
+### v1.1 - Tailwind CSS Refactor + Prompt Manager
+- Migrated from vanilla CSS to Tailwind CSS
+- Added customizable prompt templates
+- Implemented Prompt Manager with full CRUD operations
+- Enhanced cyberpunk design with glitch effects
+- Improved modular architecture
+
+### v1.0 - Initial Release
+- Basic YouTube transcript copying
 - Hardcoded prompt templates
+- Simple popup interface
+
+## 🙏 Acknowledgments
+
+Built for the AI community with ❤️
+
+Special thanks to:
+- [Tailwind CSS](https://tailwindcss.com/) for the amazing CSS framework
+- [Press Start 2P](https://fonts.google.com/specimen/Press+Start+2P) font for the retro pixel aesthetic
