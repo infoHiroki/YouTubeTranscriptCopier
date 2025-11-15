@@ -14,4 +14,7 @@ node_modules/
 src/css/output.css
 docs/css/output.css
 
+# Archive / アーカイブ
+archive/
+
 # IDE specific files / IDE固
