@@ -143,7 +143,7 @@ function createTextArea(text = '') {
 function createDeleteButton(card) {
   const button = document.createElement('button');
   button.textContent = 'DELETE';
-  button.className = 'btn-cyber-magenta w-full';
+  button.className = 'btn-cyber-red w-full';
 
   button.addEventListener('click', async () => {
     const confirmed = await showConfirmDialog(

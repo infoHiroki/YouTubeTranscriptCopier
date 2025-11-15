@@ -36,6 +36,10 @@
     @apply bg-cyber-black text-cyber-cyan border-2 border-cyber-cyan px-6 py-3 uppercase tracking-wider font-pixel text-xs transition-all duration-300 shadow-glow-cyan hover:bg-cyber-cyan hover:text-cyber-black hover:shadow-glow-cyan-lg;
   }
 
+  .btn-cyber-red {
+    @apply bg-cyber-black text-cyber-red border-2 border-cyber-red px-6 py-3 uppercase tracking-wider font-pixel text-xs transition-all duration-300 shadow-glow-red hover:bg-cyber-red hover:text-cyber-black hover:shadow-glow-red-lg;
+  }
+
   /* Input styles */
   .input-cyber {
     @apply w-full bg-cyber-black text-cyber-cyan border-2 border-cyber-cyan px-4 py-3 font-mono text-sm transition-all duration-300 focus:outline-none focus:shadow-glow-cyan;
