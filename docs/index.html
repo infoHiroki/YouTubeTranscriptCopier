@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YouTube Transcript Copier - Copy YouTube transcripts with AI analysis prompts. Retro cyberpunk Chrome extension.">
+    <meta name="keywords" content="YouTube, transcript, AI, ChatGPT, Claude, Chrome extension, cyberpunk">
+    <title>YouTube Transcript Copier - Cyberpunk Edition</title>
+    <link rel="stylesheet" href="css/output.css">
+</head>
+<body class="bg-cyber-black text-cyber-white font-mono overflow-x-hidden">
+    <!-- Noise effect -->
+    <div class="noise"></div>
+    <!-- Scanline effect -->
+    <div class="scanline"></div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="container mx-auto max-w-6xl text-center z-10">
+            <!-- Main Title -->
+            <h1 class="font-pixel text-4xl md:text-6xl lg:text-7xl text-cyber-magenta mb-6 relative title-glow text-shadow-glow-magenta animate-pulse-slow" data-text="TRANSCRIPT COPIER">
+                TRANSCRIPT COPIER
+            </h1>
+
+            <!-- Subtitle -->
+            <p class="text-cyber-green text-xl md:text-2xl lg:text-3xl mb-4 text-shadow-glow-green">
+                &lt; YouTube + AI = 🚀 &gt;
+            </p>
+
+            <!-- Description -->
+            <p class="text-cyber-cyan text-base md:text-lg max-w-3xl mx-auto mb-8 leading-relaxed">
+                Copy YouTube transcripts with customizable AI prompts.
+                Built for ChatGPT, Claude, and other AI assistants.
+                <span class="block mt-2 text-cyber-white opacity-70">
+                    Featuring a retro cyberpunk design powered by Tailwind CSS.
+                </span>
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                <a href="https://chrome.google.com/webstore" target="_blank" class="btn-cyber-magenta inline-block">
+                    INSTALL EXTENSION
+                </a>
+                <a href="https://github.com/yourusername/YouTubeTranscriptCopier" target="_blank" class="btn-cyber">
+                    VIEW ON GITHUB
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="animate-bounce">
+                <p class="text-cyber-green text-xs mb-2">SCROLL DOWN</p>
+                <div class="w-6 h-10 border-2 border-cyber-green mx-auto rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-cyber-green rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="relative py-20 px-4">
+        <div class="container mx-auto max-w-6xl z-10">
+            <h2 class="font-pixel text-3xl md:text-5xl text-cyber-green text-center mb-16 text-shadow-glow-green">
+                [ FEATURES ]
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-magenta text-4xl mb-4">🎯</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">QUICK COPY</h3>
+                    <p class="text-sm leading-relaxed">
+                        One-click copying of YouTube transcripts with timestamps.
+                        No manual scrolling or selection needed.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-green text-4xl mb-4">✏️</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">CUSTOM PROMPTS</h3>
+                    <p class="text-sm leading-relaxed">
+                        Create, edit, and manage your own AI prompt templates.
+                        Tailor prompts for different analysis tasks.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-cyan text-4xl mb-4">🔄</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">CLOUD SYNC</h3>
+                    <p class="text-sm leading-relaxed">
+                        Your prompts sync across devices using Chrome Storage API.
+                        Access them anywhere.
+                    </p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-magenta text-4xl mb-4">🎨</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">RETRO UI</h3>
+                    <p class="text-sm leading-relaxed">
+                        Immersive cyberpunk design with glitch effects,
+                        scanlines, and pixel fonts.
+                    </p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-green text-4xl mb-4">🌐</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">MULTILINGUAL</h3>
+                    <p class="text-sm leading-relaxed">
+                        Supports English, Japanese, and Chinese interfaces.
+                        Works with any YouTube transcript language.
+                    </p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="card-cyber group">
+                    <div class="text-cyber-cyan text-4xl mb-4">⚡</div>
+                    <h3 class="font-pixel text-lg text-cyber-cyan mb-3">LIGHTWEIGHT</h3>
+                    <p class="text-sm leading-relaxed">
+                        Built with vanilla JavaScript and Tailwind CSS.
+                        Fast and efficient with minimal overhead.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="relative py-20 px-4 bg-cyber-dark bg-opacity-50">
+        <div class="container mx-auto max-w-6xl z-10">
+            <h2 class="font-pixel text-3xl md:text-5xl text-cyber-green text-center mb-16 text-shadow-glow-green">
+                [ HOW IT WORKS ]
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <!-- Steps -->
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="font-pixel text-2xl text-cyber-magenta min-w-[40px]">01</div>
+                        <div>
+                            <h3 class="font-pixel text-lg text-cyber-cyan mb-2">OPEN YOUTUBE VIDEO</h3>
+                            <p class="text-sm leading-relaxed">
+                                Navigate to any YouTube video with available transcripts.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="font-pixel text-2xl text-cyber-green min-w-[40px]">02</div>
+                        <div>
+                            <h3 class="font-pixel text-lg text-cyber-cyan mb-2">CLICK EXTENSION</h3>
+                            <p class="text-sm leading-relaxed">
+                                Click the extension icon to open the popup interface.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="font-pixel text-2xl text-cyber-cyan min-w-[40px]">03</div>
+                        <div>
+                            <h3 class="font-pixel text-lg text-cyber-cyan mb-2">SELECT PROMPT</h3>
+                            <p class="text-sm leading-relaxed">
+                                Choose a pre-made prompt or write your own custom prompt.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="font-pixel text-2xl text-cyber-magenta min-w-[40px]">04</div>
+                        <div>
+                            <h3 class="font-pixel text-lg text-cyber-cyan mb-2">COPY & PASTE</h3>
+                            <p class="text-sm leading-relaxed">
+                                Click "COPY TEXT" and paste into your favorite AI assistant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Placeholder for screenshot/demo -->
+                <div class="container-cyber min-h-[400px] flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="text-6xl mb-4">🎬</div>
+                        <p class="font-pixel text-cyber-green text-sm">
+                            DEMO SCREENSHOT
+                        </p>
+                        <p class="text-cyber-cyan text-xs mt-2">
+                            Coming soon...
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Section -->
+    <section class="relative py-20 px-4">
+        <div class="container mx-auto max-w-4xl z-10">
+            <h2 class="font-pixel text-3xl md:text-5xl text-cyber-green text-center mb-16 text-shadow-glow-green">
+                [ INSTALLATION ]
+            </h2>
+
+            <div class="space-y-8">
+                <!-- Chrome Web Store -->
+                <div class="container-cyber">
+                    <h3 class="font-pixel text-xl text-cyber-magenta mb-4">FROM CHROME WEB STORE</h3>
+                    <ol class="space-y-3 list-decimal list-inside text-sm leading-relaxed">
+                        <li>Visit the Chrome Web Store (link coming soon)</li>
+                        <li>Click "Add to Chrome"</li>
+                        <li>Confirm the installation</li>
+                        <li>Open any YouTube video and click the extension icon</li>
+                    </ol>
+                </div>
+
+                <!-- Manual Installation -->
+                <div class="container-cyber">
+                    <h3 class="font-pixel text-xl text-cyber-cyan mb-4">MANUAL INSTALLATION (DEV MODE)</h3>
+                    <ol class="space-y-3 list-decimal list-inside text-sm leading-relaxed">
+                        <li>Clone the repository: <code class="text-cyber-green">git clone https://github.com/yourusername/YouTubeTranscriptCopier.git</code></li>
+                        <li>Run: <code class="text-cyber-green">npm install && npm run build:all</code></li>
+                        <li>Open Chrome and navigate to <code class="text-cyber-green">chrome://extensions</code></li>
+                        <li>Enable "Developer mode" (top right)</li>
+                        <li>Click "Load unpacked" and select the project directory</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section class="relative py-20 px-4 bg-cyber-dark bg-opacity-50">
+        <div class="container mx-auto max-w-6xl z-10">
+            <h2 class="font-pixel text-3xl md:text-5xl text-cyber-green text-center mb-16 text-shadow-glow-green">
+                [ TECH STACK ]
+            </h2>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <div class="card-cyber py-6">
+                        <p class="font-pixel text-sm text-cyber-magenta">MANIFEST V3</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="card-cyber py-6">
+                        <p class="font-pixel text-sm text-cyber-cyan">TAILWIND CSS</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="card-cyber py-6">
+                        <p class="font-pixel text-sm text-cyber-green">ES6 MODULES</p>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div class="card-cyber py-6">
+                        <p class="font-pixel text-sm text-cyber-magenta">CHROME API</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center">
+                <a href="https://github.com/yourusername/YouTubeTranscriptCopier" target="_blank" class="btn-cyber inline-block">
+                    VIEW SOURCE CODE
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="relative py-12 px-4 border-t-2 border-cyber-magenta">
+        <div class="container mx-auto max-w-6xl z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <!-- Links -->
+                <div>
+                    <h3 class="font-pixel text-sm text-cyber-magenta mb-4">LINKS</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="https://github.com/yourusername/YouTubeTranscriptCopier" class="text-cyber-cyan hover:text-cyber-green transition-colors">GitHub Repository</a></li>
+                        <li><a href="https://chrome.google.com/webstore" class="text-cyber-cyan hover:text-cyber-green transition-colors">Chrome Web Store</a></li>
+                        <li><a href="https://github.com/yourusername/YouTubeTranscriptCopier/issues" class="text-cyber-cyan hover:text-cyber-green transition-colors">Report Issues</a></li>
+                    </ul>
+                </div>
+
+                <!-- Info -->
+                <div>
+                    <h3 class="font-pixel text-sm text-cyber-magenta mb-4">INFO</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="../privacy-policy.html" class="text-cyber-cyan hover:text-cyber-green transition-colors">Privacy Policy</a></li>
+                        <li><a href="../LICENSE" class="text-cyber-cyan hover:text-cyber-green transition-colors">MIT License</a></li>
+                        <li><span class="text-cyber-white">Version 1.1</span></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div>
+                    <h3 class="font-pixel text-sm text-cyber-magenta mb-4">CONTACT</h3>
+                    <p class="text-sm text-cyber-white mb-2">
+                        Created by <a href="https://infohiroki.com/" target="_blank" class="text-cyber-green hover:text-cyber-cyan transition-colors">info.HirokiTakamura</a>
+                    </p>
+                    <p class="text-xs mb-2">
+                        <a href="https://infohiroki.com/" target="_blank" class="text-cyber-cyan hover:text-cyber-green transition-colors">🌐 infohiroki.com</a>
+                    </p>
+                    <p class="text-xs mb-2">
+                        <a href="mailto:info.hirokitakamura@gmail.com" class="text-cyber-cyan hover:text-cyber-green transition-colors">✉️ info.hirokitakamura@gmail.com</a>
+                    </p>
+                    <p class="text-xs text-cyber-cyan opacity-70">
+                        ©2025 All rights reserved
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom -->
+            <div class="text-center pt-8 border-t border-cyber-green border-opacity-30">
+                <p class="font-pixel text-xs text-cyber-green text-shadow-glow-green">
+                    [ MADE WITH &lt;3 FOR THE AI COMMUNITY ]
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
