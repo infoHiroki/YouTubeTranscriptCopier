@@ -1,20 +1,20 @@
 {
   "manifest_version": 3,
   "name": "YouTube Transcript Copier",
-  "version": "1.0",
+  "version": "1.1",
   "description": "YouTubeの文字起こしをコピーする拡張機能",
   "default_locale": "en",
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "src/assets/icons/icon16.png",
+    "48": "src/assets/icons/icon48.png",
+    "128": "src/assets/icons/icon128.png"
   },
   "action": {
-    "default_popup": "popup.html",
+    "default_popup": "src/popup/popup.html",
     "default_icon": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "src/assets/icons/icon16.png",
+      "48": "src/assets/icons/icon48.png",
+      "128": "src/assets/icons/icon128.png"
     }
   },
   "permissions": [
@@ -25,6 +25,16 @@
   ],
   "host_permissions": [
     "https://www.youtube.com/*"
-  ],  "privacy_policy": "privacy-policy.html",
-  "options_page": "options.html"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["src/assets/defaultPrompts.json"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "privacy_policy": "privacy-policy.html"
 }
