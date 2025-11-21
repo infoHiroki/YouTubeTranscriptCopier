@@ -18,10 +18,10 @@ module.exports = {
         },
       },
       fontFamily: {
-        pixel: ['"Press Start 2P"', 'cursive'],
-        mono: ['"Courier New"', 'monospace'],
-        'pixel-ja': ['PixelMplus12', 'monospace'],
-        'noto-sc': ['NotoSansSC', 'sans-serif'],
+        pixel: ['"Press Start 2P"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        mono: ['"Courier New"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+        'pixel-ja': ['PixelMplus12', 'ui-monospace', 'monospace'],
+        'noto-sc': ['"Noto Sans SC"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       boxShadow: {
         'glow-magenta': '0 0 10px #ff00ff, inset 0 0 10px #ff00ff',

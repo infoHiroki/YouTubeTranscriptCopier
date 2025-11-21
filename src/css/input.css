@@ -3,17 +3,13 @@
 @tailwind utilities;
 
 /* Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+SC&display=swap');
 
 /* Custom fonts for multilingual support */
 @font-face {
   font-family: 'PixelMplus12';
   src: url('https://cdn.jsdelivr.net/npm/pixelmplus@1.0.0/PixelMplus12-Regular.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'NotoSansSC';
-  src: url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC&display=swap');
+  font-display: swap;
 }
 
 @layer base {
