@@ -1,0 +1,43 @@
+{
+  "popup.title": "Transcript Copier",
+  "popup.selectPlaceholder": "プロンプト選択",
+  "popup.freeEdit": "自由編集",
+  "popup.textareaPlaceholder": "プロンプトを入力してください...",
+  "popup.textareaFreeModePlaceholder": "メモ・下書き用（自動保存、内容は保持されます）",
+  "popup.textareaNoSelection": "プロンプトを選択するか、自由編集を選んでください",
+  "popup.copyButton": "コピー",
+  "popup.credit": "info.HirokiTakamura",
+
+  "alert.copied": "コピーしました！",
+  "alert.errorNoTab": "エラー: タブが見つかりません",
+  "alert.errorNoTranscript": "エラー: 文字起こしの取得に失敗しました",
+  "alert.errorPrefix": "エラー: ",
+
+  "transcript.buttonNotFound": "文字起こしボタンが見つかりません",
+  "transcript.timeout": "タイムアウト: 文字起こしパネルが開きませんでした",
+  "transcript.notFound": "文字起こしが見つかりません",
+  "transcript.empty": "文字起こしの内容が空です",
+
+  "options.title": "プロンプト管理",
+  "options.addButton": "新規プロンプト",
+  "options.resetButton": "初期化",
+  "options.deleteAllButton": "すべて削除",
+  "options.promptNamePlaceholder": "プロンプト名",
+  "options.promptTextPlaceholder": "プロンプト内容...",
+  "options.deleteButton": "削除",
+
+  "options.settingsLanguageLabel": "言語",
+  "options.settingsThemeLabel": "テーマ",
+  "options.themeClean": "クリーンモダン",
+  "options.themeCyberpunk": "サイバーパンク",
+
+  "dialog.deleteTitle": "削除の確認",
+  "dialog.deleteMessage": "このプロンプトを削除しますか？",
+  "dialog.deleteAllTitle": "すべて削除",
+  "dialog.deleteAllMessage": "本当にすべてのプロンプトを削除しますか？",
+  "dialog.resetTitle": "初期化の確認",
+  "dialog.resetMessage": "デフォルトのプロンプトに戻しますか？\n現在のプロンプトはすべて削除されます。",
+  "dialog.cancelButton": "キャンセル",
+  "dialog.okButton": "OK",
+  "dialog.resetFailed": "デフォルトプロンプトの読み込みに失敗しました。もう一度お試しください。"
+}

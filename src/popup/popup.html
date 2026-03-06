@@ -2,66 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>YouTube Transcript Copier</title>
     <link rel="icon" type="image/png" sizes="16x16" href="../assets/icons/icon16.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="../assets/icons/icon48.png">
-    <link rel="icon" type="image/png" sizes="128x128" href="../assets/icons/icon128.png">
-    <link rel="stylesheet" href="../css/output.css">
+    <link rel="stylesheet" href="../css/themes/clean.css">
+    <link rel="stylesheet" href="../css/themes/cyberpunk.css">
+    <link rel="stylesheet" href="../css/common.css">
 </head>
-<body class="bg-cyber-black text-cyber-white font-mono w-80 overflow-hidden">
-    <!-- Noise effect -->
+<body>
+    <!-- Cyberpunk effects (hidden by default, shown via CSS when theme is cyberpunk) -->
     <div class="noise"></div>
-    <!-- Scanline effect -->
     <div class="scanline"></div>
 
-    <!-- Main container -->
-    <div class="container-cyber relative z-10">
-        <!-- Header -->
-        <div class="flex justify-between items-center mb-5">
-            <h1 class="font-pixel text-xl text-cyber-green text-center flex-1 relative title-glow text-shadow-glow-green" data-text="TRANSCRIPT COPIER">
-                TRANSCRIPT COPIER
-            </h1>
-            <button id="manageTemplates" class="ml-2 w-7 h-7 bg-cyber-black text-cyber-cyan border-2 border-cyber-cyan flex items-center justify-center transition-all duration-300 shadow-glow-cyan hover:bg-cyber-cyan hover:text-cyber-black hover:shadow-glow-cyan-lg text-sm" title="Prompt Manager">
-                ⚙️
-            </button>
+    <div class="container">
+        <div class="header">
+            <h1 class="title" data-i18n="popup.title">Transcript Copier</h1>
+            <button id="manageTemplates" class="btn-settings" data-i18n-title="options.title">&#x2699;&#xFE0F;</button>
         </div>
 
-        <!-- Template select -->
-        <select id="templateSelect" class="w-full p-3 my-2 bg-[#0a0a0a] text-cyber-green border-2 border-cyber-green text-sm cursor-pointer text-center transition-all duration-300 focus:outline-none focus:shadow-glow-green hover:bg-[#001100]">
-            <option value="">PROMPT</option>
+        <select id="templateSelect" class="prompt-select">
+            <option value="" data-i18n="popup.selectPlaceholder">Select Prompt</option>
         </select>
 
-        <!-- Prompt textarea -->
-        <textarea id="promptTemplate" placeholder="ENTER YOUR PROMPT..." class="input-cyber my-2 min-h-[120px] resize-y"></textarea>
+        <textarea id="promptTemplate" class="prompt-textarea" data-i18n-placeholder="popup.textareaPlaceholder"></textarea>
+        <button id="copyTranscript" class="btn-primary" data-i18n="popup.copyButton">Copy</button>
+    </div>
 
-        <!-- Copy button -->
-        <button id="copyTranscript" class="btn-cyber-magenta w-full text-lg font-pixel font-black text-center relative title-glow text-shadow-glow-magenta tracking-wider" data-text="COPY THAT!!">
-            COPY THAT!!
-        </button>
+    <div class="credit">
+        &copy;2025 <a href="https://infohiroki.com/" target="_blank">
+            <img src="../assets/logo.svg" alt="logo">info.HirokiTakamura
+        </a>
+    </div>
 
-        <!-- Footer -->
-        <div class="text-center text-cyber-green text-xs opacity-70 mt-5">
-            ©2025 <a href="https://infohiroki.com/" target="_blank" class="text-cyber-cyan hover:text-cyber-magenta transition-colors inline-flex items-center justify-center">
-                <img src="../assets/logo.svg" alt="logo" style="width: 12px; height: 12px;" class="inline-block mr-1">info.HirokiTakamura
-            </a>
+    <!-- Alert overlay -->
+    <div id="customAlert" class="alert-overlay">
+        <div class="alert-box">
+            <p id="alertMessage" class="alert-message" data-i18n="alert.copied">Copied!</p>
         </div>
     </div>
 
-    <!-- Custom alert -->
-    <div id="customAlert" class="fixed inset-0 items-center justify-center bg-black bg-opacity-80 z-50 hidden">
-        <div class="container-cyber max-w-sm animate-glitch">
-            <p id="alertMessage" class="font-pixel text-cyber-green text-center text-lg text-shadow-glow-green">
-                COPY THAT!!
-            </p>
-        </div>
-    </div>
-
-    <!-- Loading indicator -->
-    <div class="loading-indicator fixed inset-0 items-center justify-center bg-black bg-opacity-90 z-50 hidden">
-        <div class="font-pixel text-cyber-magenta text-sm animate-pulse-slow text-shadow-glow-magenta">
-            LOADING...
-        </div>
+    <!-- Loading overlay -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">LOADING...</div>
     </div>
 
     <script type="module" src="popup.js"></script>

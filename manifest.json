@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Transcript Copier",
-  "version": "1.1",
-  "description": "YouTubeの文字起こしをコピーする拡張機能",
+  "name": "__MSG_appName__",
+  "version": "2.0",
+  "description": "__MSG_appDesc__",
   "default_locale": "en",
   "icons": {
     "16": "src/assets/icons/icon16.png",
@@ -28,13 +28,15 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["src/assets/defaultPrompts.json"],
+      "resources": [
+        "src/strings/*.json",
+        "src/assets/defaultPrompts/*.json"
+      ],
       "matches": ["<all_urls>"]
     }
   ],
   "options_ui": {
     "page": "src/options/options.html",
     "open_in_tab": true
-  },
-  "privacy_policy": "privacy-policy.html"
+  }
 }

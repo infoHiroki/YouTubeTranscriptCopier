@@ -1,0 +1,43 @@
+{
+  "popup.title": "Transcript Copier",
+  "popup.selectPlaceholder": "Select Prompt",
+  "popup.freeEdit": "Free Edit",
+  "popup.textareaPlaceholder": "Enter your prompt...",
+  "popup.textareaFreeModePlaceholder": "Free edit (auto-saved, content is preserved)",
+  "popup.textareaNoSelection": "Select a prompt or choose free edit",
+  "popup.copyButton": "Copy",
+  "popup.credit": "info.HirokiTakamura",
+
+  "alert.copied": "Copied!",
+  "alert.errorNoTab": "Error: No active tab found",
+  "alert.errorNoTranscript": "Error: Failed to retrieve transcript",
+  "alert.errorPrefix": "Error: ",
+
+  "transcript.buttonNotFound": "Transcript button not found",
+  "transcript.timeout": "Timeout: Transcript panel did not open",
+  "transcript.notFound": "No transcript found",
+  "transcript.empty": "Transcript content is empty",
+
+  "options.title": "Prompt Manager",
+  "options.addButton": "New",
+  "options.resetButton": "Reset",
+  "options.deleteAllButton": "Delete All",
+  "options.promptNamePlaceholder": "Prompt Name",
+  "options.promptTextPlaceholder": "Prompt Content...",
+  "options.deleteButton": "Delete",
+
+  "options.settingsLanguageLabel": "Language",
+  "options.settingsThemeLabel": "Theme",
+  "options.themeClean": "Clean Modern",
+  "options.themeCyberpunk": "Cyberpunk",
+
+  "dialog.deleteTitle": "Delete Confirm",
+  "dialog.deleteMessage": "Delete this prompt?",
+  "dialog.deleteAllTitle": "Delete All",
+  "dialog.deleteAllMessage": "Really delete all prompts?",
+  "dialog.resetTitle": "Reset Confirm",
+  "dialog.resetMessage": "Reset to default prompts?\nAll current prompts will be deleted.",
+  "dialog.cancelButton": "Cancel",
+  "dialog.okButton": "OK",
+  "dialog.resetFailed": "Failed to load default prompts. Please try again."
+}

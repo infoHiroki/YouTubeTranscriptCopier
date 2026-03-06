@@ -1,74 +1,100 @@
 import { loadPrompts } from '../js/promptManager.js';
+import { initTheme } from '../js/themeManager.js';
+import { initI18n, t, applyI18n, getLang } from '../js/i18n.js';
 
-// デバッグ用のログ出力を追加
-console.log("popup.js loaded");
+document.addEventListener("DOMContentLoaded", async () => {
+  // Initialize theme and i18n
+  await initTheme();
+  await initI18n();
+  applyI18n();
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM loaded");
-  const button = document.getElementById("copyTranscript");
-  const promptTemplate = document.getElementById("promptTemplate");
   const templateSelect = document.getElementById("templateSelect");
+  const promptTemplate = document.getElementById("promptTemplate");
+  const button = document.getElementById("copyTranscript");
   const manageButton = document.getElementById("manageTemplates");
   const alertElement = document.getElementById("customAlert");
   const alertMessageElement = document.getElementById("alertMessage");
-  const loadingIndicator = document.querySelector(".loading-indicator");
+  const loadingOverlay = document.querySelector(".loading-overlay");
 
-  const title = document.querySelector("h1");
-  const select = document.querySelector("#templateSelect");
-  const textarea = document.querySelector("#promptTemplate");
-
-  // プロンプト管理ページへ
+  // Navigate to options page
   manageButton.addEventListener("click", () => {
     chrome.runtime.openOptionsPage();
   });
 
-  // プレースホルダーと視覚的フィードバックを更新
+  // Update placeholder based on selection
   function updateUIState() {
-    promptTemplate.placeholder = "ENTER YOUR PROMPT...";
+    if (templateSelect.value === "__free__") {
+      promptTemplate.placeholder = t('popup.textareaFreeModePlaceholder');
+      promptTemplate.classList.add("free-input-mode");
+    } else if (templateSelect.value === "") {
+      promptTemplate.placeholder = t('popup.textareaNoSelection');
+      promptTemplate.classList.remove("free-input-mode");
+    } else {
+      promptTemplate.placeholder = t('popup.textareaPlaceholder');
+      promptTemplate.classList.remove("free-input-mode");
+    }
   }
 
-  // プロンプトを読み込んでセレクトに追加
-  loadPrompts()
-    .then((prompts) => {
-      templateSelect.innerHTML = "";
-      const placeholder = document.createElement("option");
-      placeholder.value = "";
-      placeholder.textContent = "PROMPT";
-      templateSelect.appendChild(placeholder);
+  // Load prompts and populate select
+  try {
+    const prompts = await loadPrompts(getLang());
 
-      prompts.forEach((p) => {
-        const option = document.createElement("option");
-        option.value = p.text;
-        option.textContent = p.name;
-        templateSelect.appendChild(option);
-      });
+    templateSelect.innerHTML = "";
 
-      // 前回選択したプロンプトを復元
-      chrome.storage.local.get(["selectedPromptName"], (result) => {
-        if (result.selectedPromptName) {
-          // 保存済みプロンプトを復元
-          const options = templateSelect.options;
-          for (let i = 0; i < options.length; i++) {
-            if (options[i].textContent === result.selectedPromptName) {
-              templateSelect.selectedIndex = i;
-              promptTemplate.value = options[i].value;
-              break;
-            }
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = t('popup.selectPlaceholder');
+    templateSelect.appendChild(placeholder);
+
+    // Free edit option
+    const freeOption = document.createElement("option");
+    freeOption.value = "__free__";
+    freeOption.textContent = t('popup.freeEdit');
+    templateSelect.appendChild(freeOption);
+
+    prompts.forEach((p) => {
+      const option = document.createElement("option");
+      option.value = p.text;
+      option.textContent = p.name;
+      templateSelect.appendChild(option);
+    });
+
+    // Restore previous selection
+    chrome.storage.local.get(["selectedPromptName", "freeInputPrompt"], (result) => {
+      if (result.selectedPromptName === t('popup.freeEdit') ||
+          result.selectedPromptName === "Free Edit" ||
+          result.selectedPromptName === "自由編集" ||
+          result.selectedPromptName === "フリー入力") {
+        templateSelect.value = "__free__";
+        promptTemplate.value = result.freeInputPrompt || "";
+      } else if (result.selectedPromptName) {
+        const options = templateSelect.options;
+        for (let i = 0; i < options.length; i++) {
+          if (options[i].textContent === result.selectedPromptName) {
+            templateSelect.selectedIndex = i;
+            promptTemplate.value = options[i].value;
+            break;
           }
         }
-        updateUIState();
-      });
-    })
-    .catch((err) => console.error("Failed to load prompts:", err));
+      }
+      updateUIState();
+    });
+  } catch (err) {
+    console.error("Failed to load prompts:", err);
+  }
 
-  // テンプレート選択時の処理を追加
+  // Template selection handler
   templateSelect.addEventListener("change", () => {
     if (templateSelect.value === "") {
       promptTemplate.value = "";
       promptTemplate.focus();
       chrome.storage.local.set({ selectedPromptName: "" });
+    } else if (templateSelect.value === "__free__") {
+      chrome.storage.local.get(["freeInputPrompt"], (result) => {
+        promptTemplate.value = result.freeInputPrompt || "";
+        chrome.storage.local.set({ selectedPromptName: t('popup.freeEdit') });
+      });
     } else {
-      // 保存済みプロンプトを選択
       promptTemplate.value = templateSelect.value;
       const selectedOption = templateSelect.options[templateSelect.selectedIndex];
       chrome.storage.local.set({
@@ -77,66 +103,50 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     }
     updateUIState();
-    // Add visual cue for the selected option
-    templateSelect.classList.add("selected-template");
-    setTimeout(() => {
-      templateSelect.classList.remove("selected-template");
-    }, 300);
   });
 
-  // プロンプトをローカルストレージから読み込む
+  // Load saved prompt text
   chrome.storage.local.get(["promptTemplate"], (result) => {
-    if (result.promptTemplate) {
+    if (result.promptTemplate && templateSelect.value !== "__free__") {
       promptTemplate.value = result.promptTemplate;
     }
   });
 
-  // プロンプトの変更を保存
+  // Save prompt changes
   promptTemplate.addEventListener("input", () => {
-    chrome.storage.local.set({ promptTemplate: promptTemplate.value });
+    if (templateSelect.value === "__free__") {
+      chrome.storage.local.set({ freeInputPrompt: promptTemplate.value });
+    } else {
+      chrome.storage.local.set({ promptTemplate: promptTemplate.value });
+    }
   });
 
-  // アラート表示用の関数
-  function showCustomAlert(message, isSuccess = true) {
+  // Show alert
+  function showAlert(message, isSuccess = true) {
     alertMessageElement.textContent = message;
-    alertElement.classList.remove("hidden");
-    alertElement.classList.add("flex");
+    alertElement.classList.add("show");
 
     if (isSuccess) {
-      // グリッチエフェクトを適用
-      title.classList.add("glitch-effect");
-      select.classList.add("glitch-effect");
-      textarea.classList.add("glitch-effect");
-      button.classList.add("glitch-effect");
-
       setTimeout(() => {
-        title.classList.remove("glitch-effect");
-        select.classList.remove("glitch-effect");
-        textarea.classList.remove("glitch-effect");
-        button.classList.remove("glitch-effect");
         window.close();
-      }, 800);
-    }
-    // エラー時はアラートを自動で消去
-    if (!isSuccess) {
+      }, 1300);
+    } else {
       setTimeout(() => {
-        alertElement.classList.add("hidden");
-        alertElement.classList.remove("flex");
+        alertElement.classList.remove("show");
       }, 1300);
     }
   }
 
+  // Copy transcript button
   button.addEventListener("click", async () => {
-    console.log("Button clicked");
-    loadingIndicator.classList.remove("hidden");
-    loadingIndicator.classList.add("flex"); // ローディング開始
+    loadingOverlay.classList.add("show");
     try {
       const [tab] = await chrome.tabs.query({
         active: true,
         currentWindow: true,
       });
       if (!tab) {
-        showCustomAlert("ERROR: No active tab", false);
+        showAlert(t('alert.errorNoTab'), false);
         return;
       }
 
@@ -144,27 +154,37 @@ document.addEventListener("DOMContentLoaded", () => {
         target: { tabId: tab.id },
         func: async () => {
           try {
-            console.log("スクリプト実行開始");
+            // Check if transcript panel is already open
+            const existingPanel = document.querySelector(
+              'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]'
+            );
+            const panelAlreadyOpen = existingPanel &&
+              existingPanel.getAttribute('visibility') === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED';
 
-            // 文字起こしボタンを探して自動クリック
-            const transcriptButton =
-              document.querySelector('button[aria-label="文字起こしを表示"]') ||
-              document.querySelector('button[aria-label="字幕を表示"]') ||
-              document.querySelector('button[aria-label="Show transcript"]');
+            if (!panelAlreadyOpen) {
+              // Try multiple selectors to find the transcript button
+              const transcriptButton =
+                document.querySelector('ytd-video-description-transcript-section-renderer button') ||
+                document.querySelector('button[aria-label="文字起こしを表示"]') ||
+                document.querySelector('button[aria-label="字幕を表示"]') ||
+                document.querySelector('button[aria-label="Show transcript"]') ||
+                document.querySelector('button[aria-label*="transcript" i]') ||
+                document.querySelector('ytd-menu-service-item-renderer[role="menuitem"]');
 
-            if (!transcriptButton) {
-              throw new Error("Transcript button not found");
+              if (!transcriptButton) {
+                throw new Error("TRANSCRIPT_BUTTON_NOT_FOUND");
+              }
+              transcriptButton.click();
             }
 
-            console.log("文字起こしボタン発見");
-            transcriptButton.click();
-
-            // Wait for the transcript panel to open (supports both old and new format)
+            // Wait for transcript panel to open (supports multiple formats)
             await new Promise((resolve, reject) => {
               const intervalId = setInterval(() => {
                 if (
                   document.querySelector("ytd-transcript-segment-renderer") ||
-                  document.querySelector("transcript-segment-view-model")
+                  document.querySelector("transcript-segment-view-model") ||
+                  document.querySelector('#segments-container') ||
+                  document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"] .segment-text')
                 ) {
                   clearInterval(intervalId);
                   resolve();
@@ -173,81 +193,109 @@ document.addEventListener("DOMContentLoaded", () => {
 
               setTimeout(() => {
                 clearInterval(intervalId);
-                reject(new Error("Timeout: Transcript panel did not open"));
+                reject(new Error("TRANSCRIPT_TIMEOUT"));
               }, 10000);
             });
 
             let text = "";
 
-            // 旧形式: ytd-transcript-segment-renderer
-            const oldSegments = document.querySelectorAll(
-              "ytd-transcript-segment-renderer"
-            );
-            // 新形式: transcript-segment-view-model
-            const newSegments = document.querySelectorAll(
-              "transcript-segment-view-model"
-            );
-
-            console.log("Old segments:", oldSegments.length, "New segments:", newSegments.length);
-
+            // Method 1: ytd-transcript-segment-renderer (legacy format)
+            const oldSegments = document.querySelectorAll("ytd-transcript-segment-renderer");
             if (oldSegments.length > 0) {
               oldSegments.forEach((segment) => {
-                const timestamp =
-                  segment
-                    .querySelector(".segment-timestamp")
-                    ?.textContent?.trim() || "";
-                const content =
-                  segment.querySelector(".segment-text")?.textContent?.trim() ||
-                  "";
+                const timestamp = segment.querySelector(".segment-timestamp")?.textContent?.trim() || "";
+                const content = segment.querySelector(".segment-text")?.textContent?.trim() || "";
                 if (timestamp && content) {
                   text += `${timestamp} ${content}\n`;
                 }
               });
-            } else if (newSegments.length > 0) {
-              newSegments.forEach((segment) => {
-                const fullText = segment.textContent?.trim() || "";
-                const timestampMatch = fullText.match(/^(\d+:\d{2})/);
-                if (timestampMatch) {
-                  const timestamp = timestampMatch[1];
-                  let content = fullText.substring(timestamp.length);
-                  // Strip accessible time description (e.g. "8 秒", "1 分 4 秒", "8 seconds")
-                  content = content.replace(/^\d[\d 分]*(?:秒|seconds?)\s*/, '');
-                  if (content.trim()) {
-                    text += `${timestamp} ${content.trim()}\n`;
+            }
+
+            // Method 2: transcript-segment-view-model (2026 new format)
+            if (!text.trim()) {
+              const newSegments = document.querySelectorAll("transcript-segment-view-model");
+              if (newSegments.length > 0) {
+                newSegments.forEach((segment) => {
+                  const fullText = segment.textContent?.trim() || "";
+                  const timestampMatch = fullText.match(/^(\d+:\d{2})/);
+                  if (timestampMatch) {
+                    const timestamp = timestampMatch[1];
+                    let content = fullText.substring(timestamp.length);
+                    content = content.replace(/^\d[\d 分]*(?:秒|seconds?)\s*/, '');
+                    if (content.trim()) {
+                      text += `${timestamp} ${content.trim()}\n`;
+                    }
                   }
-                }
-              });
-            } else {
-              throw new Error("No transcript found");
+                });
+              }
+            }
+
+            // Method 3: engagement panel .segment-text
+            if (!text.trim()) {
+              const panel = document.querySelector(
+                'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]'
+              );
+              if (panel) {
+                const segments = panel.querySelectorAll('.segment-text');
+                segments.forEach((seg) => {
+                  const content = seg.textContent?.trim();
+                  if (content) {
+                    text += `${content}\n`;
+                  }
+                });
+              }
+            }
+
+            // Method 4: #segments-container yt-formatted-string
+            if (!text.trim()) {
+              const container = document.querySelector('#segments-container');
+              if (container) {
+                const segments = container.querySelectorAll('yt-formatted-string');
+                segments.forEach((segment) => {
+                  const content = segment.textContent?.trim();
+                  if (content) {
+                    text += `${content}\n`;
+                  }
+                });
+              }
             }
 
             if (!text.trim()) {
-              throw new Error("Transcript content is empty");
+              throw new Error("TRANSCRIPT_NOT_FOUND");
             }
 
             return text;
           } catch (error) {
-            console.error("Content script error:", error);
             throw error;
           }
         },
       });
 
       if (result && result[0] && result[0].result) {
-        const finalText = promptTemplate.value + "\n\n" + result[0].result;
+        const finalText = promptTemplate.value
+          ? promptTemplate.value + "\n\n" + result[0].result
+          : result[0].result;
         await navigator.clipboard.writeText(finalText);
-        showCustomAlert("COPY THAT!!");
+        showAlert(t('alert.copied'));
       } else {
-        showCustomAlert("ERROR: Failed to retrieve transcript", false);
+        showAlert(t('alert.errorNoTranscript'), false);
       }
     } catch (error) {
-      console.error("Error:", error);
-      showCustomAlert("ERROR: " + error.message, false);
+      const msg = error.message || '';
+      if (msg.includes('TRANSCRIPT_BUTTON_NOT_FOUND')) {
+        showAlert(t('alert.errorPrefix') + t('transcript.buttonNotFound'), false);
+      } else if (msg.includes('TRANSCRIPT_TIMEOUT')) {
+        showAlert(t('alert.errorPrefix') + t('transcript.timeout'), false);
+      } else if (msg.includes('TRANSCRIPT_NOT_FOUND')) {
+        showAlert(t('alert.errorPrefix') + t('transcript.notFound'), false);
+      } else {
+        showAlert(t('alert.errorPrefix') + msg, false);
+      }
     } finally {
-      loadingIndicator.classList.add("hidden");
-      loadingIndicator.classList.remove("flex"); // ローディング終了
+      loadingOverlay.classList.remove("show");
     }
   });
-  // Auto focus the textarea on load
+
+  // Auto focus textarea
   promptTemplate.focus();
 });

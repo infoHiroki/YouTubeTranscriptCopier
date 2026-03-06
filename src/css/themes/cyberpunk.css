@@ -1,0 +1,205 @@
+/* Cyberpunk Theme */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+[data-theme="cyberpunk"] {
+  /* Colors */
+  --bg-body: #000000;
+  --bg-container: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-title: #00ff00;
+  --text-muted: #00ff00;
+  --accent-primary: #ff00ff;
+  --accent-secondary: #00ffff;
+
+  /* Typography */
+  --font-primary: 'Courier New', monospace;
+  --font-title: 'Press Start 2P', cursive;
+
+  /* Layout */
+  --popup-width: 320px;
+  --body-padding: 20px;
+  --container-padding: 20px;
+  --radius: 0px;
+
+  /* Container */
+  --container-border: 3px solid #ff00ff;
+  --container-shadow: 0 0 10px #ff00ff, inset 0 0 10px #ff00ff;
+
+  /* Inputs */
+  --input-bg: #0a0a0a;
+  --input-text: #00ffff;
+  --input-border: 2px solid #00ffff;
+  --input-focus-shadow: 0 0 10px #00ffff;
+
+  /* Buttons */
+  --btn-primary-bg: #000000;
+  --btn-primary-text: #ff00ff;
+  --btn-primary-hover-bg: #ff00ff;
+  --btn-primary-hover-text: #000000;
+  --btn-primary-border: 2px solid #ff00ff;
+  --btn-primary-font-size: 12px;
+  --btn-primary-hover-shadow: 0 0 20px #ff00ff, inset 0 0 20px #ff00ff;
+  --btn-text-transform: uppercase;
+  --btn-letter-spacing: 2px;
+
+  /* Settings button */
+  --btn-settings-bg: #000000;
+  --btn-settings-border: 2px solid #00ffff;
+  --btn-settings-color: #00ffff;
+  --btn-settings-hover-transform: none;
+  --btn-settings-hover-bg: #00ffff;
+  --btn-settings-hover-color: #000000;
+  --btn-settings-hover-shadow: 0 0 10px #00ffff;
+
+  /* Credit */
+  --credit-link-color: #00ffff;
+
+  /* Alert */
+  --alert-overlay-bg: rgba(0, 0, 0, 0.8);
+  --alert-bg: #1a1a1a;
+  --alert-text: #00ff00;
+  --alert-shadow: 0 0 20px #ff00ff;
+  --alert-border: 3px solid #ff00ff;
+  --alert-font-size: 16px;
+  --alert-text-shadow: 0 0 15px #00ff00;
+
+  /* Loading */
+  --loading-overlay-bg: rgba(0, 0, 0, 0.9);
+  --loading-track: #1a1a1a;
+
+  /* Cards (options page) */
+  --card-bg: #1a1a1a;
+  --card-border: 2px solid #ff00ff;
+  --card-shadow: 0 0 10px #ff00ff;
+  --card-hover-shadow: 0 0 20px #ff00ff;
+  --options-btn-border: 2px solid currentColor;
+
+  /* Settings section */
+  --settings-bg: #0a0a0a;
+  --settings-border: 2px solid #00ffff;
+
+  /* Dialog */
+  --dialog-overlay-bg: rgba(0, 0, 0, 0.8);
+  --dialog-bg: #1a1a1a;
+  --dialog-border: 3px solid #ff00ff;
+  --dialog-shadow: 0 0 20px #ff00ff;
+  --dialog-title-color: #ff00ff;
+  --dialog-title-shadow: 0 0 15px #ff00ff;
+  --dialog-text-color: #ffffff;
+
+  /* Options button colors */
+  --btn-add-bg: #000000;
+  --btn-add-text: #00ff00;
+  --btn-add-hover-bg: #00ff00;
+  --btn-add-hover-text: #000000;
+  --btn-reset-bg: #000000;
+  --btn-reset-text: #00ffff;
+  --btn-reset-hover-bg: #00ffff;
+  --btn-reset-hover-text: #000000;
+  --btn-delete-bg: #000000;
+  --btn-delete-text: #ff3333;
+  --btn-delete-hover-bg: #ff3333;
+  --btn-delete-hover-text: #000000;
+
+  /* Title */
+  --title-font-size: 16px;
+  --title-text-shadow: 0 0 15px #00ff00;
+}
+
+/* Cyberpunk-specific effects */
+[data-theme="cyberpunk"] .scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    0deg,
+    rgba(0, 255, 0, 0) 50%,
+    rgba(0, 255, 0, 0.05) 50%
+  );
+  background-size: 100% 4px;
+  animation: scanline 8s linear infinite;
+  z-index: 999;
+  opacity: 0.5;
+}
+
+[data-theme="cyberpunk"] .noise {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: url('data:image/png;base64,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') repeat;
+  background-size: 128px 128px;
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 998;
+}
+
+/* Hide cyberpunk effects when not active */
+.scanline, .noise {
+  display: none;
+}
+
+[data-theme="cyberpunk"] .scanline,
+[data-theme="cyberpunk"] .noise {
+  display: block;
+}
+
+[data-theme="cyberpunk"] .loading-spinner {
+  display: none;
+}
+
+[data-theme="cyberpunk"] .loading-text {
+  display: block;
+  font-family: 'Press Start 2P', cursive;
+  color: #ff00ff;
+  font-size: 12px;
+  animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  text-shadow: 0 0 15px #ff00ff;
+}
+
+[data-theme="cyberpunk"] .prompt-select {
+  text-align: center;
+}
+
+[data-theme="cyberpunk"] .btn-primary:hover {
+  color: var(--btn-primary-hover-text);
+}
+
+[data-theme="cyberpunk"] .btn-add:hover { color: var(--btn-add-hover-text, #000); }
+[data-theme="cyberpunk"] .btn-reset:hover { color: var(--btn-reset-hover-text, #000); }
+[data-theme="cyberpunk"] .btn-delete:hover,
+[data-theme="cyberpunk"] .btn-delete-all:hover { color: var(--btn-delete-hover-text, #000); }
+
+/* Custom scrollbar for cyberpunk */
+[data-theme="cyberpunk"] ::-webkit-scrollbar { width: 10px; }
+[data-theme="cyberpunk"] ::-webkit-scrollbar-track { background: #000; }
+[data-theme="cyberpunk"] ::-webkit-scrollbar-thumb { background: #ff00ff; border: 1px solid #000; }
+[data-theme="cyberpunk"] ::-webkit-scrollbar-thumb:hover { background: #00ff00; }
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes glitch {
+  0%, 100% { transform: translate(0); opacity: 1; }
+  20% { transform: translate(-2px, 2px); opacity: 0.8; }
+  40% { transform: translate(-2px, -2px); opacity: 0.9; }
+  60% { transform: translate(2px, 2px); opacity: 0.8; }
+  80% { transform: translate(2px, -2px); opacity: 0.9; }
+}
+
+[data-theme="cyberpunk"] .glitch-effect {
+  animation: glitch 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}

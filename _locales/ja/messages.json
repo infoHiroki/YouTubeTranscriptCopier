@@ -4,7 +4,7 @@
     "description": "拡張機能の名前"
   },
   "appDesc": {
-    "message": "YouTubeの字幕をAI分析用プロンプト付きでコピーする拡張機能",
+    "message": "YouTubeの字幕をAI分析用プロンプト付きでコピー。日本語・英語UI、テーマ切替対応。",
     "description": "拡張機能の説明"
   }
 }

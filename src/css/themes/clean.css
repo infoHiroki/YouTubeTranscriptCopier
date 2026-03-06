@@ -1,0 +1,93 @@
+/* Clean Modern Theme - Based on YoutubeMojiCopy */
+:root, [data-theme="clean"] {
+  /* Colors */
+  --bg-body: #f8f9fa;
+  --bg-container: #ffffff;
+  --text-primary: #333;
+  --text-title: #333;
+  --text-muted: #999;
+  --accent-primary: #E73E8F;
+  --accent-secondary: #C73277;
+
+  /* Typography */
+  --font-primary: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-title: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  /* Layout */
+  --popup-width: 320px;
+  --body-padding: 20px;
+  --container-padding: 20px;
+  --radius: 8px;
+
+  /* Container */
+  --container-border: 1px solid #e0e0e0;
+  --container-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  /* Inputs */
+  --input-bg: #fff;
+  --input-text: #333;
+  --input-border: 1px solid #ddd;
+  --input-focus-shadow: none;
+
+  /* Buttons */
+  --btn-primary-bg: #E73E8F;
+  --btn-primary-text: #fff;
+  --btn-primary-hover-bg: #C73277;
+  --btn-primary-border: none;
+  --btn-primary-font-size: 14px;
+  --btn-text-transform: none;
+  --btn-letter-spacing: normal;
+
+  /* Settings button */
+  --btn-settings-bg: transparent;
+  --btn-settings-border: none;
+  --btn-settings-color: inherit;
+  --btn-settings-hover-transform: rotate(360deg);
+  --btn-settings-hover-bg: transparent;
+
+  /* Credit */
+  --credit-link-color: #999;
+
+  /* Alert */
+  --alert-overlay-bg: rgba(0, 0, 0, 0.1);
+  --alert-bg: #E73E8F;
+  --alert-text: #fff;
+  --alert-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+
+  /* Loading */
+  --loading-overlay-bg: rgba(255, 255, 255, 0.5);
+  --loading-track: #f3f3f3;
+
+  /* Cards (options page) */
+  --card-bg: #fff;
+  --card-border: 2px solid #e0e0e0;
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  --card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --options-btn-border: none;
+
+  /* Settings section */
+  --settings-bg: #f0f0f0;
+  --settings-border: 1px solid #ddd;
+
+  /* Dialog */
+  --dialog-overlay-bg: rgba(0, 0, 0, 0.5);
+  --dialog-bg: #fff;
+  --dialog-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  --dialog-title-color: #222;
+  --dialog-text-color: #333;
+
+  /* Options button colors */
+  --btn-add-bg: #6c757d;
+  --btn-add-text: #fff;
+  --btn-add-hover-bg: #5a6268;
+  --btn-reset-bg: #007bff;
+  --btn-reset-text: #fff;
+  --btn-reset-hover-bg: #0056b3;
+  --btn-delete-bg: #dc3545;
+  --btn-delete-text: #fff;
+  --btn-delete-hover-bg: #c82333;
+
+  /* Title */
+  --title-font-size: 22px;
+  --title-text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}

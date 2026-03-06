@@ -1,0 +1,525 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+/* ==================== Reset & Base ==================== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  width: var(--popup-width, 320px);
+  padding: var(--body-padding, 20px);
+  background: var(--bg-body);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  margin: 0;
+  overflow: hidden;
+}
+
+/* ==================== Container ==================== */
+.container {
+  background: var(--bg-container);
+  border: var(--container-border);
+  border-radius: var(--radius);
+  padding: var(--container-padding, 20px);
+  box-shadow: var(--container-shadow);
+  position: relative;
+  z-index: 10;
+}
+
+/* ==================== Header ==================== */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: var(--title-font-size, 22px);
+  text-align: center;
+  margin: 0;
+  color: var(--text-title);
+  font-weight: 700;
+  font-family: var(--font-title, var(--font-primary));
+  text-shadow: var(--title-text-shadow, none);
+  flex: 1;
+}
+
+/* ==================== Settings Button ==================== */
+.btn-settings {
+  width: auto;
+  padding: 8px;
+  background: var(--btn-settings-bg, transparent);
+  border: var(--btn-settings-border, none);
+  font-size: 22px;
+  line-height: 1.2;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--btn-settings-color, inherit);
+}
+
+.btn-settings:hover {
+  transform: var(--btn-settings-hover-transform, rotate(360deg));
+  background: var(--btn-settings-hover-bg, transparent);
+  color: var(--btn-settings-hover-color, inherit);
+  box-shadow: var(--btn-settings-hover-shadow, none);
+}
+
+/* ==================== Select ==================== */
+.prompt-select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: var(--input-bg);
+  color: var(--input-text);
+  border: var(--input-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.prompt-select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: var(--input-focus-shadow, none);
+}
+
+/* ==================== Textarea ==================== */
+.prompt-textarea {
+  width: 100%;
+  height: 120px;
+  margin: 10px 0;
+  padding: 10px;
+  background: var(--input-bg);
+  border: var(--input-border);
+  border-radius: var(--radius);
+  color: var(--input-text);
+  font-family: var(--font-primary);
+  font-size: 14px;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+
+.prompt-textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: var(--input-focus-shadow, none);
+}
+
+.prompt-textarea.free-input-mode {
+  border-color: var(--accent-primary);
+  border-width: 2px;
+}
+
+/* ==================== Primary Button ==================== */
+.btn-primary {
+  width: 100%;
+  padding: 10px;
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+  border: var(--btn-primary-border, none);
+  border-radius: var(--radius);
+  font-family: var(--font-title, var(--font-primary));
+  font-size: var(--btn-primary-font-size, 14px);
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: var(--btn-text-transform, none);
+  letter-spacing: var(--btn-letter-spacing, normal);
+}
+
+.btn-primary:hover {
+  background: var(--btn-primary-hover-bg);
+  color: var(--btn-primary-hover-text, var(--btn-primary-text));
+  box-shadow: var(--btn-primary-hover-shadow, none);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
+}
+
+/* ==================== Credit / Footer ==================== */
+.credit {
+  text-align: center;
+  font-size: 10px;
+  margin-top: 15px;
+  color: var(--text-muted);
+}
+
+.credit a {
+  color: var(--credit-link-color, var(--text-muted));
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.credit a:hover {
+  color: var(--accent-primary);
+  text-decoration: underline;
+}
+
+.credit img {
+  width: 12px;
+  height: 12px;
+  display: inline-block;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+/* ==================== Alert ==================== */
+.alert-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--alert-overlay-bg, rgba(0,0,0,0.1));
+  z-index: 1000;
+}
+
+.alert-overlay.show {
+  display: flex;
+}
+
+.alert-box {
+  background: var(--alert-bg, var(--accent-primary));
+  color: var(--alert-text, #fff);
+  padding: 15px 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--alert-shadow, 0 2px 10px rgba(0,0,0,0.2));
+  text-align: center;
+  border: var(--alert-border, none);
+  animation: fadeIn 0.3s;
+}
+
+.alert-message {
+  margin: 0;
+  padding: 0;
+  font-weight: bold;
+  font-family: var(--font-title, var(--font-primary));
+  font-size: var(--alert-font-size, 14px);
+  text-shadow: var(--alert-text-shadow, none);
+}
+
+/* ==================== Loading ==================== */
+.loading-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  align-items: center;
+  justify-content: center;
+  background: var(--loading-overlay-bg, rgba(255,255,255,0.5));
+  z-index: 1002;
+}
+
+.loading-overlay.show {
+  display: flex;
+}
+
+.loading-spinner {
+  border: 3px solid var(--loading-track, #f3f3f3);
+  border-top: 3px solid var(--accent-primary);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  display: none;
+}
+
+/* ==================== Animations ==================== */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+/* ==================== Options Page ==================== */
+body.options-page {
+  width: 900px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto;
+  padding: 40px 20px;
+  overflow-y: auto;
+}
+
+body.options-page .container {
+  width: 100%;
+}
+
+/* Settings Section */
+.settings-section {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--settings-bg, var(--input-bg));
+  border: var(--settings-border, var(--input-border));
+  border-radius: var(--radius);
+}
+
+.setting-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.setting-group label {
+  font-size: 13px;
+  font-weight: bold;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.setting-group select {
+  padding: 6px 10px;
+  background: var(--input-bg);
+  color: var(--input-text);
+  border: var(--input-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--font-primary);
+  cursor: pointer;
+}
+
+.setting-group select:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+}
+
+/* Options Header */
+.options-page .header {
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.options-page .title {
+  text-align: left;
+  font-size: 26px;
+  flex: 1;
+}
+
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.header-buttons button {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: var(--radius);
+  border: var(--options-btn-border, none);
+  transition: all 0.2s;
+  font-family: var(--font-title, var(--font-primary));
+  text-transform: var(--btn-text-transform, none);
+  letter-spacing: var(--btn-letter-spacing, normal);
+}
+
+.btn-add {
+  background: var(--btn-add-bg, #6c757d);
+  color: var(--btn-add-text, #fff);
+}
+.btn-add:hover {
+  background: var(--btn-add-hover-bg, #5a6268);
+}
+
+.btn-reset {
+  background: var(--btn-reset-bg, #007bff);
+  color: var(--btn-reset-text, #fff);
+}
+.btn-reset:hover {
+  background: var(--btn-reset-hover-bg, #0056b3);
+}
+
+.btn-delete-all {
+  background: var(--btn-delete-bg, #dc3545);
+  color: var(--btn-delete-text, #fff);
+}
+.btn-delete-all:hover {
+  background: var(--btn-delete-hover-bg, #c82333);
+}
+
+/* ==================== Prompt Cards Grid ==================== */
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.prompt-card {
+  background: var(--card-bg, #fff);
+  border: var(--card-border, 2px solid #e0e0e0);
+  border-radius: var(--radius);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s;
+  box-shadow: var(--card-shadow, 0 1px 3px rgba(0,0,0,0.05));
+}
+
+.prompt-card:hover {
+  box-shadow: var(--card-hover-shadow, 0 4px 12px rgba(0,0,0,0.1));
+  border-color: var(--accent-primary);
+}
+
+.prompt-card .prompt-name {
+  width: 100%;
+  padding: 8px 12px;
+  border: var(--input-border);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-family: var(--font-primary);
+  font-weight: bold;
+  box-sizing: border-box;
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+.prompt-card .prompt-text {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px 12px;
+  border: var(--input-border);
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-family: var(--font-primary);
+  resize: vertical;
+  box-sizing: border-box;
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+.prompt-card input:focus,
+.prompt-card textarea:focus {
+  outline: none;
+  border-color: var(--accent-primary);
+  box-shadow: var(--input-focus-shadow, none);
+}
+
+.btn-delete {
+  align-self: flex-end;
+  padding: 6px 12px;
+  font-size: 12px;
+  background: var(--btn-delete-bg, #dc3545);
+  color: var(--btn-delete-text, #fff);
+  border: var(--options-btn-border, none);
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s;
+  font-family: var(--font-title, var(--font-primary));
+  text-transform: var(--btn-text-transform, none);
+}
+
+.btn-delete:hover {
+  background: var(--btn-delete-hover-bg, #c82333);
+}
+
+/* ==================== Confirm Dialog ==================== */
+.dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--dialog-overlay-bg, rgba(0,0,0,0.5));
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.dialog-overlay.show {
+  display: flex;
+}
+
+.dialog-box {
+  background: var(--dialog-bg, #fff);
+  border-radius: var(--radius);
+  border: var(--dialog-border, none);
+  padding: 24px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: var(--dialog-shadow, 0 4px 20px rgba(0,0,0,0.3));
+}
+
+.dialog-title {
+  margin: 0 0 16px 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--dialog-title-color, var(--text-title));
+  font-family: var(--font-title, var(--font-primary));
+  text-shadow: var(--dialog-title-shadow, none);
+}
+
+.dialog-message {
+  margin: 0 0 24px 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--dialog-text-color, var(--text-primary));
+  white-space: pre-line;
+}
+
+.dialog-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.dialog-btn {
+  padding: 10px 20px;
+  border: var(--options-btn-border, none);
+  border-radius: var(--radius);
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font-title, var(--font-primary));
+  text-transform: var(--btn-text-transform, none);
+}
+
+.dialog-btn-cancel {
+  background: var(--btn-add-bg, #6c757d);
+  color: var(--btn-add-text, #fff);
+}
+.dialog-btn-cancel:hover {
+  background: var(--btn-add-hover-bg, #5a6268);
+}
+
+.dialog-btn-ok {
+  background: var(--btn-primary-bg);
+  color: var(--btn-primary-text);
+}
+.dialog-btn-ok:hover {
+  background: var(--btn-primary-hover-bg);
+}
