@@ -159,45 +159,67 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("文字起こしボタン発見");
             transcriptButton.click();
 
-            // Wait for the transcript panel to open using an interval
+            // Wait for the transcript panel to open (supports both old and new format)
             await new Promise((resolve, reject) => {
               const intervalId = setInterval(() => {
-                if (document.querySelector("ytd-transcript-segment-renderer")) {
+                if (
+                  document.querySelector("ytd-transcript-segment-renderer") ||
+                  document.querySelector("transcript-segment-view-model")
+                ) {
                   clearInterval(intervalId);
                   resolve();
                 }
               }, 100);
 
-              // Timeout after 5 seconds
               setTimeout(() => {
                 clearInterval(intervalId);
                 reject(new Error("Timeout: Transcript panel did not open"));
-              }, 5000);
+              }, 10000);
             });
-
-            // 文字起こしセグメントの取得
-            const segments = document.querySelectorAll(
-              "ytd-transcript-segment-renderer"
-            );
-            console.log("Found segments:", segments.length);
-
-            if (segments.length === 0) {
-              throw new Error("No transcript found");
-            }
 
             let text = "";
-            segments.forEach((segment) => {
-              const timestamp =
-                segment
-                  .querySelector(".segment-timestamp")
-                  ?.textContent?.trim() || "";
-              const content =
-                segment.querySelector(".segment-text")?.textContent?.trim() ||
-                "";
-              if (timestamp && content) {
-                text += `${timestamp} ${content}\n`;
-              }
-            });
+
+            // 旧形式: ytd-transcript-segment-renderer
+            const oldSegments = document.querySelectorAll(
+              "ytd-transcript-segment-renderer"
+            );
+            // 新形式: transcript-segment-view-model
+            const newSegments = document.querySelectorAll(
+              "transcript-segment-view-model"
+            );
+
+            console.log("Old segments:", oldSegments.length, "New segments:", newSegments.length);
+
+            if (oldSegments.length > 0) {
+              oldSegments.forEach((segment) => {
+                const timestamp =
+                  segment
+                    .querySelector(".segment-timestamp")
+                    ?.textContent?.trim() || "";
+                const content =
+                  segment.querySelector(".segment-text")?.textContent?.trim() ||
+                  "";
+                if (timestamp && content) {
+                  text += `${timestamp} ${content}\n`;
+                }
+              });
+            } else if (newSegments.length > 0) {
+              newSegments.forEach((segment) => {
+                const fullText = segment.textContent?.trim() || "";
+                const timestampMatch = fullText.match(/^(\d+:\d{2})/);
+                if (timestampMatch) {
+                  const timestamp = timestampMatch[1];
+                  let content = fullText.substring(timestamp.length);
+                  // Strip accessible time description (e.g. "8 秒", "1 分 4 秒", "8 seconds")
+                  content = content.replace(/^\d[\d 分]*(?:秒|seconds?)\s*/, '');
+                  if (content.trim()) {
+                    text += `${timestamp} ${content.trim()}\n`;
+                  }
+                }
+              });
+            } else {
+              throw new Error("No transcript found");
+            }
 
             if (!text.trim()) {
               throw new Error("Transcript content is empty");
