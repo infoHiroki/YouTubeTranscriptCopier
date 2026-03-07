@@ -9,7 +9,64 @@
     <link rel="icon" type="image/png" sizes="16x16" href="images/icon16.png">
     <link rel="icon" type="image/png" sizes="48x48" href="images/icon48.png">
     <link rel="icon" type="image/png" sizes="128x128" href="images/icon128.png">
-    <link rel="stylesheet" href="css/output.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'cyber-black': '#000000',
+              'cyber-dark': '#1a1a1a',
+              'cyber-white': '#ffffff',
+              'cyber-green': '#00ff00',
+              'cyber-cyan': '#00ffff',
+              'cyber-magenta': '#ff00ff',
+            },
+            fontFamily: {
+              'pixel': ['"Press Start 2P"', 'cursive'],
+              'mono': ['"Courier New"', 'monospace'],
+            },
+          },
+        },
+      }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+      .text-shadow-glow-green { text-shadow: 0 0 15px #00ff00; }
+      .text-shadow-glow-magenta { text-shadow: 0 0 15px #ff00ff; }
+      .shadow-glow-cyan { box-shadow: 0 0 10px #00ffff; }
+      .shadow-glow-green { box-shadow: 0 0 10px #00ff00; }
+      .title-glow { text-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff; }
+      .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+      .noise {
+        position: fixed; top: -50%; left: -50%; right: -50%; bottom: -50%;
+        width: 200%; height: 200%;
+        background: url('data:image/png;base64,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') repeat;
+        background-size: 128px 128px; opacity: 0.03; pointer-events: none; z-index: 998;
+      }
+      .scanline {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none;
+        background: linear-gradient(0deg, rgba(0,255,0,0) 50%, rgba(0,255,0,0.05) 50%);
+        background-size: 100% 4px; animation: scanline 8s linear infinite; z-index: 999; opacity: 0.5;
+      }
+      @keyframes scanline { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+      .card-cyber {
+        background: #1a1a1a; border: 2px solid #ff00ff; padding: 24px; position: relative;
+        box-shadow: 0 0 10px #ff00ff; transition: all 0.3s;
+      }
+      .card-cyber:hover { box-shadow: 0 0 20px #ff00ff, inset 0 0 20px rgba(255,0,255,0.1); }
+      .container-cyber { background: #1a1a1a; border: 2px solid #00ffff; padding: 24px; box-shadow: 0 0 10px #00ffff; }
+      .btn-cyber {
+        padding: 12px 32px; border: 2px solid #00ffff; color: #00ffff; font-family: 'Press Start 2P', cursive;
+        font-size: 12px; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; text-decoration: none;
+      }
+      .btn-cyber:hover { background: #00ffff; color: #000; box-shadow: 0 0 20px #00ffff; }
+      .btn-cyber-magenta {
+        padding: 12px 32px; border: 2px solid #ff00ff; color: #ff00ff; font-family: 'Press Start 2P', cursive;
+        font-size: 12px; text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s; text-decoration: none;
+      }
+      .btn-cyber-magenta:hover { background: #ff00ff; color: #000; box-shadow: 0 0 20px #ff00ff; }
+    </style>
 </head>
 <body class="bg-cyber-black text-cyber-white font-mono overflow-x-hidden">
     <!-- Noise effect -->
@@ -167,7 +224,7 @@
                     <div class="font-pixel text-2xl text-cyber-magenta">04</div>
                     <h3 class="font-pixel text-lg text-cyber-cyan">COPY & PASTE</h3>
                     <p class="text-sm leading-relaxed">
-                        Click "COPY THAT!!" and paste into your favorite AI assistant.
+                        Click "Copy" and paste into your favorite AI assistant.
                     </p>
                 </div>
             </div>
@@ -176,11 +233,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto items-start">
                 <div class="container-cyber mx-auto max-w-sm">
                     <h3 class="font-pixel text-sm text-cyber-magenta mb-4 text-center">POPUP</h3>
-                    <img src="images/popup-screenshot.png" alt="Popup Screenshot" class="w-full border-2 border-cyber-cyan shadow-glow-cyan">
+                    <img src="images/v2-clean-ja.png" alt="Clean Theme - Japanese" class="w-full border-2 border-cyber-cyan shadow-glow-cyan mb-4">
+                    <img src="images/v2-cyberpunk.png" alt="Cyberpunk Theme" class="w-full border-2 border-cyber-magenta" style="box-shadow: 0 0 10px #ff00ff;">
                 </div>
                 <div class="container-cyber">
                     <h3 class="font-pixel text-sm text-cyber-magenta mb-4 text-center">SETTINGS</h3>
-                    <img src="images/settings-screenshot.png" alt="Settings Screenshot" class="w-full border-2 border-cyber-green shadow-glow-green">
+                    <img src="images/v2-options-clean-ja.png" alt="Options - Clean Japanese" class="w-full border-2 border-cyber-green shadow-glow-green mb-4">
+                    <img src="images/v2-options-cyberpunk-en.png" alt="Options - Cyberpunk English" class="w-full border-2 border-cyber-magenta" style="box-shadow: 0 0 10px #ff00ff;">
                 </div>
             </div>
         </div>

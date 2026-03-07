@@ -4,7 +4,7 @@
     "description": "扩展名称"
   },
   "appDesc": {
-    "message": "复制YouTube字幕并添加AI分析提示",
+    "message": "复制YouTube字幕并添加AI分析提示。支持英语/日语界面及多主题切换。",
     "description": "扩展描述"
   }
 }

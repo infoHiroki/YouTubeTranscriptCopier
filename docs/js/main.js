@@ -153,8 +153,8 @@ console.log(`
 %c
 ╔═══════════════════════════════════════════════╗
 ║                                               ║
-║   YOUTUBE TRANSCRIPT COPIER v1.1              ║
-║   Cyberpunk Edition                           ║
+║   YOUTUBE TRANSCRIPT COPIER v2.0              ║
+║   Multi-theme / Multi-language Edition        ║
 ║                                               ║
 ║   Thanks for checking the console! 🚀         ║
 ║   GitHub: github.com/yourusername/...         ║
