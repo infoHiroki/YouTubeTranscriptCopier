@@ -84,6 +84,11 @@ YouTubeTranscriptCopier/
 
 ## Version History
 
+### v2.0.1 - YouTube 2026年2月DOM変更対応
+- 文字起こしパネルの新target-id（`PAmodern_transcript_view`）に対応
+- `transcript-segment-view-model`のクラスセレクタによる直接抽出に改善
+- a11yラベル（分/minutes表記）のcleanup修正
+
 ### v2.0 - Multi-language & Multi-theme Integration
 - [YoutubeMojiCopy](https://github.com/infoHiroki/YoutubeMojiCopy)（日本語版）を統合
 - Tailwind CSSを廃止、CSS Custom Propertiesベースに移行
