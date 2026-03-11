@@ -155,9 +155,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         func: async () => {
           try {
             // Check if transcript panel is already open
-            const existingPanel = document.querySelector(
-              'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]'
-            );
+            const existingPanel =
+              document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"]') ||
+              document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]');
             const panelAlreadyOpen = existingPanel &&
               existingPanel.getAttribute('visibility') === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED';
 
@@ -184,6 +184,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                   document.querySelector("ytd-transcript-segment-renderer") ||
                   document.querySelector("transcript-segment-view-model") ||
                   document.querySelector('#segments-container') ||
+                  document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"] .segment-text') ||
                   document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"] .segment-text')
                 ) {
                   clearInterval(intervalId);
@@ -216,12 +217,24 @@ document.addEventListener("DOMContentLoaded", async () => {
               const newSegments = document.querySelectorAll("transcript-segment-view-model");
               if (newSegments.length > 0) {
                 newSegments.forEach((segment) => {
+                  // Try direct class selectors first
+                  const timestampEl = segment.querySelector('.ytwTranscriptSegmentViewModelTimestamp');
+                  const contentEl = segment.querySelector('.yt-core-attributed-string[role="text"]');
+                  if (timestampEl && contentEl) {
+                    const timestamp = timestampEl.textContent?.trim() || "";
+                    const content = contentEl.textContent?.trim() || "";
+                    if (timestamp && content) {
+                      text += `${timestamp} ${content}\n`;
+                    }
+                    return;
+                  }
+                  // Fallback: parse from textContent
                   const fullText = segment.textContent?.trim() || "";
                   const timestampMatch = fullText.match(/^(\d+:\d{2})/);
                   if (timestampMatch) {
                     const timestamp = timestampMatch[1];
                     let content = fullText.substring(timestamp.length);
-                    content = content.replace(/^\d[\d 分]*(?:秒|seconds?)\s*/, '');
+                    content = content.replace(/^\d[\d 分秒]*(?:秒|分|seconds?|minutes?)\s*/, '');
                     if (content.trim()) {
                       text += `${timestamp} ${content.trim()}\n`;
                     }
@@ -232,9 +245,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Method 3: engagement panel .segment-text
             if (!text.trim()) {
-              const panel = document.querySelector(
-                'ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]'
-              );
+              const panel =
+                document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"]') ||
+                document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]');
               if (panel) {
                 const segments = panel.querySelectorAll('.segment-text');
                 segments.forEach((seg) => {
