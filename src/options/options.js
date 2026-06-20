@@ -5,6 +5,13 @@ import { initI18n, t, applyI18n, getLang, setLang } from '../js/i18n.js';
 let saveTimeout = null;
 let domElements = null;
 
+const DEFAULT_METADATA_SETTINGS = {
+  includeTitle: true,
+  includeUrl: true,
+  includeChannel: true,
+  includeDescription: false,
+};
+
 function getDOMElements() {
   return {
     container: document.getElementById('templatesContainer'),
@@ -13,6 +20,10 @@ function getDOMElements() {
     resetBtn: document.getElementById('resetToDefault'),
     langSelect: document.getElementById('langSelect'),
     themeSelect: document.getElementById('themeSelect'),
+    metaTitle: document.getElementById('metaTitle'),
+    metaUrl: document.getElementById('metaUrl'),
+    metaChannel: document.getElementById('metaChannel'),
+    metaDescription: document.getElementById('metaDescription'),
     dialog: {
       overlay: document.getElementById('confirmDialog'),
       title: document.getElementById('dialogTitle'),
@@ -21,6 +32,25 @@ function getDOMElements() {
       cancelBtn: document.getElementById('dialogCancel'),
     },
   };
+}
+
+function saveMetadataSettings() {
+  chrome.storage.local.set({
+    metadataSettings: {
+      includeTitle: domElements.metaTitle.checked,
+      includeUrl: domElements.metaUrl.checked,
+      includeChannel: domElements.metaChannel.checked,
+      includeDescription: domElements.metaDescription.checked,
+    }
+  });
+}
+
+function loadMetadataSettings() {
+  return new Promise((resolve) => {
+    chrome.storage.local.get(['metadataSettings'], (result) => {
+      resolve({ ...DEFAULT_METADATA_SETTINGS, ...(result.metadataSettings || {}) });
+    });
+  });
 }
 
 function showConfirmDialog(title, message) {
@@ -179,6 +209,18 @@ async function init() {
   domElements.themeSelect.addEventListener('change', () => {
     setTheme(domElements.themeSelect.value);
   });
+
+  // Load and apply metadata settings
+  const metaSettings = await loadMetadataSettings();
+  domElements.metaTitle.checked = metaSettings.includeTitle;
+  domElements.metaUrl.checked = metaSettings.includeUrl;
+  domElements.metaChannel.checked = metaSettings.includeChannel;
+  domElements.metaDescription.checked = metaSettings.includeDescription;
+
+  domElements.metaTitle.addEventListener('change', saveMetadataSettings);
+  domElements.metaUrl.addEventListener('change', saveMetadataSettings);
+  domElements.metaChannel.addEventListener('change', saveMetadataSettings);
+  domElements.metaDescription.addEventListener('change', saveMetadataSettings);
 
   // Load and render prompts
   await loadAndRenderPrompts();

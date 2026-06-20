@@ -39,5 +39,16 @@
   "dialog.resetMessage": "デフォルトのプロンプトに戻しますか？\n現在のプロンプトはすべて削除されます。",
   "dialog.cancelButton": "キャンセル",
   "dialog.okButton": "OK",
-  "dialog.resetFailed": "デフォルトプロンプトの読み込みに失敗しました。もう一度お試しください。"
+  "dialog.resetFailed": "デフォルトプロンプトの読み込みに失敗しました。もう一度お試しください。",
+
+  "options.metadataSectionLabel": "取得するメタデータ",
+  "options.metadataTitle": "タイトル",
+  "options.metadataUrl": "URL",
+  "options.metadataChannel": "チャンネル名",
+  "options.metadataDescription": "概要欄",
+
+  "metadata.titleLabel": "タイトル",
+  "metadata.urlLabel": "URL",
+  "metadata.channelLabel": "チャンネル",
+  "metadata.descriptionLabel": "概要"
 }

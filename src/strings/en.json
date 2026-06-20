@@ -39,5 +39,16 @@
   "dialog.resetMessage": "Reset to default prompts?\nAll current prompts will be deleted.",
   "dialog.cancelButton": "Cancel",
   "dialog.okButton": "OK",
-  "dialog.resetFailed": "Failed to load default prompts. Please try again."
+  "dialog.resetFailed": "Failed to load default prompts. Please try again.",
+
+  "options.metadataSectionLabel": "Metadata to include",
+  "options.metadataTitle": "Title",
+  "options.metadataUrl": "URL",
+  "options.metadataChannel": "Channel",
+  "options.metadataDescription": "Description",
+
+  "metadata.titleLabel": "Title",
+  "metadata.urlLabel": "URL",
+  "metadata.channelLabel": "Channel",
+  "metadata.descriptionLabel": "Description"
 }

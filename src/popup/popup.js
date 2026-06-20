@@ -137,14 +137,28 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  function loadMetadataSettings() {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(['metadataSettings'], (result) => {
+        resolve({
+          includeTitle: true,
+          includeUrl: true,
+          includeChannel: true,
+          includeDescription: false,
+          ...(result.metadataSettings || {}),
+        });
+      });
+    });
+  }
+
   // Copy transcript button
   button.addEventListener("click", async () => {
     loadingOverlay.classList.add("show");
     try {
-      const [tab] = await chrome.tabs.query({
-        active: true,
-        currentWindow: true,
-      });
+      const [[tab], metaSettings] = await Promise.all([
+        chrome.tabs.query({ active: true, currentWindow: true }),
+        loadMetadataSettings(),
+      ]);
       if (!tab) {
         showAlert(t('alert.errorNoTab'), false);
         return;
@@ -153,6 +167,39 @@ document.addEventListener("DOMContentLoaded", async () => {
       const result = await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         func: async () => {
+          // Collect metadata from page
+          const title = document.title.replace(/ - YouTube$/, '').trim();
+          const url = window.location.href;
+
+          const channel =
+            document.querySelector('#owner ytd-channel-name a')?.textContent?.trim() ||
+            document.querySelector('ytd-channel-name yt-formatted-string a')?.textContent?.trim() ||
+            document.querySelector('#channel-name a')?.textContent?.trim() ||
+            '';
+
+          let description = '';
+          try {
+            const results = window.ytInitialData?.contents?.twoColumnWatchNextResults?.results?.results?.contents;
+            if (Array.isArray(results)) {
+              for (const item of results) {
+                const content = item?.videoSecondaryInfoRenderer?.attributedDescription?.content;
+                if (content) { description = content; break; }
+              }
+            }
+          } catch(e) {}
+          if (!description) {
+            const expander =
+              document.querySelector('#description-inline-expander') ||
+              document.querySelector('ytd-text-inline-expander');
+            if (expander) {
+              const inner =
+                expander.querySelector('yt-attributed-string') ||
+                expander.querySelector('#attributed-snippet-text') ||
+                expander.querySelector('yt-formatted-string');
+              description = (inner || expander).textContent?.trim() || '';
+            }
+          }
+
           try {
             // Check if transcript panel is already open
             const existingPanel =
@@ -277,7 +324,7 @@ document.addEventListener("DOMContentLoaded", async () => {
               throw new Error("TRANSCRIPT_NOT_FOUND");
             }
 
-            return text;
+            return { transcript: text, title, url, channel, description };
           } catch (error) {
             throw error;
           }
@@ -285,9 +332,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       if (result && result[0] && result[0].result) {
-        const finalText = promptTemplate.value
-          ? promptTemplate.value + "\n\n" + result[0].result
-          : result[0].result;
+        const { transcript, title, url, channel, description } = result[0].result;
+
+        const metaParts = [];
+        if (metaSettings.includeTitle && title) metaParts.push(`${t('metadata.titleLabel')}: ${title}`);
+        if (metaSettings.includeUrl && url) metaParts.push(`${t('metadata.urlLabel')}: ${url}`);
+        if (metaSettings.includeChannel && channel) metaParts.push(`${t('metadata.channelLabel')}: ${channel}`);
+        if (metaSettings.includeDescription && description) metaParts.push(`${t('metadata.descriptionLabel')}:\n${description}`);
+
+        const parts = [];
+        if (promptTemplate.value) parts.push(promptTemplate.value);
+        if (metaParts.length > 0) parts.push(metaParts.join('\n'));
+        parts.push(transcript);
+        const finalText = parts.join('\n\n');
+
         await navigator.clipboard.writeText(finalText);
         showAlert(t('alert.copied'));
       } else {

@@ -445,6 +445,33 @@ body.options-page .container {
   background: var(--btn-delete-hover-bg, #c82333);
 }
 
+/* ==================== Metadata Settings ==================== */
+.metadata-settings {
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: -8px;
+}
+
+.metadata-settings .metadata-section-header label {
+  color: var(--text-muted);
+  font-weight: normal;
+  font-size: 12px;
+  width: 100%;
+}
+
+.metadata-settings input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent-primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.metadata-settings .setting-group:not(.metadata-section-header) label {
+  font-weight: normal;
+  cursor: pointer;
+}
+
 /* ==================== Confirm Dialog ==================== */
 .dialog-overlay {
   position: fixed;
