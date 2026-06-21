@@ -1,0 +1,19 @@
+【Short Description】
+Copy YouTube transcripts with AI prompts in one click. Also fetches video title, URL, channel, and description to boost AI output quality. Supports English & Japanese with customizable prompt templates.
+
+---
+
+【Detailed Description】
+YouTube Transcript Copier lets you copy YouTube transcripts together with AI prompts to your clipboard in one click — ready to paste into Claude, ChatGPT, Gemini, or any AI tool.
+
+Key Features:
+· One-click transcript copy with your AI prompt
+· Fetch video metadata: title, URL, channel name, and description (each toggleable)
+· Save and manage frequently used prompt templates
+· Free-input mode for custom one-off prompts
+· Two themes: Clean Modern and Cyberpunk
+· English and Japanese interface support
+
+Including video metadata alongside the transcript gives AI tools richer context, resulting in more accurate summaries, better structured notes, and higher quality output overall.
+
+Perfect for students, researchers, content creators, and anyone who wants to get the most out of YouTube with AI.
