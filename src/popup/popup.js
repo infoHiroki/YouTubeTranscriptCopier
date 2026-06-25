@@ -188,6 +188,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             }
           } catch(e) {}
           if (!description) {
+            const expandBtn =
+              document.querySelector('#description-inline-expander tp-yt-paper-button#expand') ||
+              document.querySelector('ytd-text-inline-expander tp-yt-paper-button#expand') ||
+              document.querySelector('tp-yt-paper-button#expand');
+            if (expandBtn) {
+              expandBtn.click();
+              await new Promise(r => setTimeout(r, 300));
+            }
             const expander =
               document.querySelector('#description-inline-expander') ||
               document.querySelector('ytd-text-inline-expander');
