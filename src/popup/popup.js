@@ -137,6 +137,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // Map an error code from the injected function to a localized message
+  function describeTranscriptError(msg) {
+    if (msg.includes('TRANSCRIPT_BUTTON_NOT_FOUND')) return t('transcript.buttonNotFound');
+    if (msg.includes('TRANSCRIPT_TIMEOUT')) return t('transcript.timeout');
+    if (msg.includes('TRANSCRIPT_NOT_FOUND')) return t('transcript.notFound');
+    return msg;
+  }
+
   function loadMetadataSettings() {
     return new Promise((resolve) => {
       chrome.storage.local.get(['metadataSettings'], (result) => {
@@ -209,14 +217,53 @@ document.addEventListener("DOMContentLoaded", async () => {
           }
 
           try {
-            // Check if transcript panel is already open
-            const existingPanel =
-              document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"]') ||
-              document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]');
-            const panelAlreadyOpen = existingPanel &&
-              existingPanel.getAttribute('visibility') === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED';
+            // YouTube keeps several transcript panels in the DOM at once: an empty
+            // PAmodern_transcript_view plus two engagement-panel-searchable-transcript
+            // panels holding identical segments (one EXPANDED, one HIDDEN). Scope every
+            // lookup to the visible one, otherwise the transcript is collected twice.
+            const transcriptPanels = () =>
+              [...document.querySelectorAll('ytd-engagement-panel-section-list-renderer')]
+                .filter((p) => /transcript/i.test(p.getAttribute('target-id') || ''));
 
-            if (!panelAlreadyOpen) {
+            const hasSegments = (panel) =>
+              !!panel.querySelector('ytd-transcript-segment-renderer, transcript-segment-view-model, .segment-text');
+
+            const findTranscriptRoot = () => {
+              const panels = transcriptPanels();
+              return (
+                panels.find((p) => p.getAttribute('visibility') === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED' && hasSegments(p)) ||
+                panels.find((p) => p.offsetParent && hasSegments(p)) ||
+                panels.find(hasSegments) ||
+                document
+              );
+            };
+
+            // Wait for actual segments, not just the container: an empty
+            // #segments-container exists before the transcript is loaded, and
+            // resolving on it alone yields TRANSCRIPT_NOT_FOUND.
+            const segmentsPresent = () =>
+              !!document.querySelector('ytd-transcript-segment-renderer, transcript-segment-view-model, .segment-text');
+
+            const waitForSegments = (timeoutMs) =>
+              new Promise((resolve, reject) => {
+                if (segmentsPresent()) {
+                  resolve();
+                  return;
+                }
+                const intervalId = setInterval(() => {
+                  if (segmentsPresent()) {
+                    clearInterval(intervalId);
+                    resolve();
+                  }
+                }, 100);
+
+                setTimeout(() => {
+                  clearInterval(intervalId);
+                  reject(new Error("TRANSCRIPT_TIMEOUT"));
+                }, timeoutMs);
+              });
+
+            const openTranscriptPanel = () => {
               // Try multiple selectors to find the transcript button
               const transcriptButton =
                 document.querySelector('ytd-video-description-transcript-section-renderer button') ||
@@ -230,46 +277,61 @@ document.addEventListener("DOMContentLoaded", async () => {
                 throw new Error("TRANSCRIPT_BUTTON_NOT_FOUND");
               }
               transcriptButton.click();
+            };
+
+            if (!segmentsPresent()) {
+              // Check if any transcript panel is already open
+              const panelAlreadyOpen = transcriptPanels().some(
+                (p) => p.getAttribute('visibility') === 'ENGAGEMENT_PANEL_VISIBILITY_EXPANDED'
+              );
+
+              if (!panelAlreadyOpen) {
+                openTranscriptPanel();
+              }
+
+              try {
+                await waitForSegments(10000);
+              } catch (e) {
+                // The panel looked open but stayed empty: try opening it once more.
+                if (!panelAlreadyOpen) throw e;
+                openTranscriptPanel();
+                await waitForSegments(10000);
+              }
             }
 
-            // Wait for transcript panel to open (supports multiple formats)
-            await new Promise((resolve, reject) => {
-              const intervalId = setInterval(() => {
-                if (
-                  document.querySelector("ytd-transcript-segment-renderer") ||
-                  document.querySelector("transcript-segment-view-model") ||
-                  document.querySelector('#segments-container') ||
-                  document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"] .segment-text') ||
-                  document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"] .segment-text')
-                ) {
-                  clearInterval(intervalId);
-                  resolve();
-                }
-              }, 100);
-
-              setTimeout(() => {
-                clearInterval(intervalId);
-                reject(new Error("TRANSCRIPT_TIMEOUT"));
-              }, 10000);
-            });
+            const root = findTranscriptRoot();
 
             let text = "";
+            const seenSegments = new Set();
+            // Safety net in case YouTube ever renders two visible panels: identical
+            // (timestamp, content) pairs are kept only once. Lines without a timestamp
+            // pass through untouched so legitimate repeats are preserved.
+            const appendLine = (timestamp, content) => {
+              if (!timestamp) {
+                text += `${content}\n`;
+                return;
+              }
+              const key = `${timestamp} ${content}`;
+              if (seenSegments.has(key)) return;
+              seenSegments.add(key);
+              text += `${timestamp} ${content}\n`;
+            };
 
             // Method 1: ytd-transcript-segment-renderer (legacy format)
-            const oldSegments = document.querySelectorAll("ytd-transcript-segment-renderer");
+            const oldSegments = root.querySelectorAll("ytd-transcript-segment-renderer");
             if (oldSegments.length > 0) {
               oldSegments.forEach((segment) => {
                 const timestamp = segment.querySelector(".segment-timestamp")?.textContent?.trim() || "";
                 const content = segment.querySelector(".segment-text")?.textContent?.trim() || "";
                 if (timestamp && content) {
-                  text += `${timestamp} ${content}\n`;
+                  appendLine(timestamp, content);
                 }
               });
             }
 
             // Method 2: transcript-segment-view-model (2026 new format)
             if (!text.trim()) {
-              const newSegments = document.querySelectorAll("transcript-segment-view-model");
+              const newSegments = root.querySelectorAll("transcript-segment-view-model");
               if (newSegments.length > 0) {
                 newSegments.forEach((segment) => {
                   // Try direct class selectors first
@@ -279,7 +341,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const timestamp = timestampEl.textContent?.trim() || "";
                     const content = contentEl.textContent?.trim() || "";
                     if (timestamp && content) {
-                      text += `${timestamp} ${content}\n`;
+                      appendLine(timestamp, content);
                     }
                     return;
                   }
@@ -291,7 +353,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     let content = fullText.substring(timestamp.length);
                     content = content.replace(/^\d[\d 分秒]*(?:秒|分|seconds?|minutes?)\s*/, '');
                     if (content.trim()) {
-                      text += `${timestamp} ${content.trim()}\n`;
+                      appendLine(timestamp, content.trim());
                     }
                   }
                 });
@@ -300,29 +362,24 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             // Method 3: engagement panel .segment-text
             if (!text.trim()) {
-              const panel =
-                document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="PAmodern_transcript_view"]') ||
-                document.querySelector('ytd-engagement-panel-section-list-renderer[target-id="engagement-panel-searchable-transcript"]');
-              if (panel) {
-                const segments = panel.querySelectorAll('.segment-text');
-                segments.forEach((seg) => {
-                  const content = seg.textContent?.trim();
-                  if (content) {
-                    text += `${content}\n`;
-                  }
-                });
-              }
+              const segments = root.querySelectorAll('.segment-text');
+              segments.forEach((seg) => {
+                const content = seg.textContent?.trim();
+                if (content) {
+                  appendLine("", content);
+                }
+              });
             }
 
             // Method 4: #segments-container yt-formatted-string
             if (!text.trim()) {
-              const container = document.querySelector('#segments-container');
+              const container = root.querySelector('#segments-container');
               if (container) {
                 const segments = container.querySelectorAll('yt-formatted-string');
                 segments.forEach((segment) => {
                   const content = segment.textContent?.trim();
                   if (content) {
-                    text += `${content}\n`;
+                    appendLine("", content);
                   }
                 });
               }
@@ -334,13 +391,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
             return { transcript: text, title, url, channel, description };
           } catch (error) {
-            throw error;
+            // Return the code instead of throwing: an exception inside an injected
+            // function reaches the popup as an undefined result, losing the reason.
+            return { error: error?.message || String(error) };
           }
         },
       });
 
-      if (result && result[0] && result[0].result) {
-        const { transcript, title, url, channel, description } = result[0].result;
+      const payload = result && result[0] ? result[0].result : null;
+
+      if (payload && payload.error) {
+        showAlert(t('alert.errorPrefix') + describeTranscriptError(payload.error), false);
+      } else if (payload && payload.transcript) {
+        const { transcript, title, url, channel, description } = payload;
 
         const metaParts = [];
         if (metaSettings.includeTitle && title) metaParts.push(`${t('metadata.titleLabel')}: ${title}`);
@@ -360,16 +423,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         showAlert(t('alert.errorNoTranscript'), false);
       }
     } catch (error) {
-      const msg = error.message || '';
-      if (msg.includes('TRANSCRIPT_BUTTON_NOT_FOUND')) {
-        showAlert(t('alert.errorPrefix') + t('transcript.buttonNotFound'), false);
-      } else if (msg.includes('TRANSCRIPT_TIMEOUT')) {
-        showAlert(t('alert.errorPrefix') + t('transcript.timeout'), false);
-      } else if (msg.includes('TRANSCRIPT_NOT_FOUND')) {
-        showAlert(t('alert.errorPrefix') + t('transcript.notFound'), false);
-      } else {
-        showAlert(t('alert.errorPrefix') + msg, false);
-      }
+      showAlert(t('alert.errorPrefix') + describeTranscriptError(error?.message || ''), false);
     } finally {
       loadingOverlay.classList.remove("show");
     }
