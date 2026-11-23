@@ -44,6 +44,26 @@ cd YouTubeTranscriptCopier
 4. 「コピー」ボタンをクリック
 5. ChatGPT、Claude、Geminiなどに貼り付け
 
+## Claude Code Skill — 画面なしで字幕を取る
+
+`skill/youtube-transcript/` は、同じことをブラウザなしでやる [Claude Code](https://claude.com/claude-code) のスキルです。
+拡張は YouTube の画面の「文字起こし」パネルを読みますが、スキルは [yt-dlp](https://github.com/yt-dlp/yt-dlp) で字幕だけを取ります。
+
+- 出力は `[mm:ss] 文` の時刻付きテキスト。先頭に題・チャンネル・長さ・URL・取得日・字幕の種類(手動/自動)、チャプターは見出し
+- 元の言語の字幕を選ぶ(手動 > 自動)。自動翻訳の字幕は使わない
+- 自動の字幕は、画面の「文字起こし」と同じ言葉になる(2026-11-23 に 3 本で確認)
+- 必要な物: `yt-dlp`(`brew install yt-dlp`)と `python3`。追加のライブラリは不要
+
+```bash
+# Claude Code から使えるようにする(1 回だけ)
+ln -s "$(pwd)/skill/youtube-transcript" ~/.claude/skills/youtube-transcript
+
+# そのまま使う(保存先を省くと ./transcripts/)
+python3 -I skill/youtube-transcript/yt_transcript.py "https://www.youtube.com/watch?v=VIDEO_ID" --out ~/transcripts
+```
+
+Claude Code では「この動画の字幕を取って要約して」+ URL で動きます。詳しくは [`skill/youtube-transcript/SKILL.md`](skill/youtube-transcript/SKILL.md)。
+
 ## Project Structure
 
 ```
@@ -77,6 +97,10 @@ YouTubeTranscriptCopier/
 │       │   ├── en.json
 │       │   └── ja.json
 │       └── logo.svg
+├── skill/
+│   └── youtube-transcript/   # Claude Code skill (no browser, uses yt-dlp)
+│       ├── SKILL.md
+│       └── yt_transcript.py
 ├── docs/                     # GitHub Pages website
 ├── privacy-policy.html
 └── LICENSE
