@@ -18,3 +18,7 @@ docs/css/output.css
 archive/
 
 # IDE specific files / IDE固
+
+# Python / スキルを試した時にできる物
+__pycache__/
+transcripts/
